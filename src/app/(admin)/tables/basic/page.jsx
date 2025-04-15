@@ -9,7 +9,7 @@ export const metadata = {
   title: 'Basic Tables'
 };
 const BasicTable = () => {
-  return <ComponentContainerCard title='My Table' description={<>For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.</>}>
+  return <ComponentContainerCard title='Contact Listing'  >
       <div className="table-responsive-sm">
         <table className="table mb-0">
           <thead>
@@ -77,7 +77,7 @@ const InverseTable = () => {
     </ComponentContainerCard>;
 };
 const StripedRowTable = () => {
-  return <ComponentContainerCard title='Striped Rows' description={<>
+  return <ComponentContainerCard title='Contact Listing' description={<>
       Use <code>.table-striped</code> to add zebra-striping to any table row
       within the <code>&lt;tbody&gt;</code>.</>}>
       <div className="table-responsive-sm">
@@ -654,23 +654,20 @@ const CaptionTopTable = () => {
 };
 const BasicTables = () => {
   return <>
-      <Row>
-        <Col xl={6}>
+      {/* <Row>
+        <Col xl={12}>
           <BasicTable />
-        </Col>
-        <Col xl={6}>
-          <InverseTable />
-        </Col>
-      </Row>
+        </Col> 
+      </Row> */}
       <Row>
-        <Col xl={6}>
+        <Col xl={12}>
           <StripedRowTable />
         </Col>
-        <Col xl={6}>
+        {/* <Col xl={6}>
           <StripedColumnsTable />
-        </Col>
+        </Col> */}
       </Row>
-      <Row>
+      {/* <Row>
         <Col xl={6}>
           <TableHeadOptions />
         </Col>
@@ -730,7 +727,7 @@ const BasicTables = () => {
         <Col xl={6}>
           <CaptionTopTable />
         </Col>
-      </Row>
+      </Row>   */}
     </>;
 };
 export default BasicTables;

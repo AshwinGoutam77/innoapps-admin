@@ -48,38 +48,38 @@ const SnowEditor = () => {
     }], ['link', 'image', 'video'], ['clean']]
   };
   return <ComponentContainerCard title="Quill Editor" description={<>Snow is a clean, flat toolbar theme.</>}>
-      <ul className="list-group list-group-flush">
-        <li className="list-group-item m-0 p-0">
-          <div className="mb-2">
-              <ReactQuill id="snow-editor" modules={modules} defaultValue={valueSnow} theme="snow" />
-          </div>
-        </li>
-      </ul>
-    </ComponentContainerCard>;
+    <ul className="list-group list-group-flush">
+      <li className="list-group-item m-0 p-0">
+        <div className="mb-2">
+          <ReactQuill id="snow-editor" modules={modules} defaultValue={valueSnow} theme="snow" />
+        </div>
+      </li>
+    </ul>
+  </ComponentContainerCard>;
 };
-const BubbleEditor = () => {
+export const BubbleEditor = () => {
   return <ComponentContainerCard title="Bubble Editor" description={<>Bubble is a simple tooltip based theme.</>}>
-      <ul className="list-group list-group-flush">
-        <li className="list-group-item m-0 p-0">
-          <div className="mb-2">
-            <div id="snow-editor" style={{
+    <ul className="list-group list-group-flush">
+      <li className="list-group-item m-0 p-0">
+        <div className="mb-2">
+          <div id="snow-editor" style={{
             height: 300
           }}>
-              <ReactQuill id="bubble-editor" defaultValue={valueBubble} theme="bubble" style={{
+            <ReactQuill id="bubble-editor" defaultValue={valueBubble} theme="bubble" style={{
               height: 300
             }} />
-            </div>
           </div>
-        </li>
-      </ul>
-    </ComponentContainerCard>;
+        </div>
+      </li>
+    </ul>
+  </ComponentContainerCard>;
 };
 const AllEditors = () => {
   return <Row>
-      <Col xs={12}>
-        <SnowEditor />
-        <BubbleEditor />
-      </Col>
-    </Row>;
+    <Col xs={12}>
+      <SnowEditor />
+      <BubbleEditor />
+    </Col>
+  </Row>;
 };
 export default AllEditors;

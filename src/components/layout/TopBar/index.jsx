@@ -29,15 +29,15 @@ const TopBar = () => {
       <div className="page-container topbar-menu">
         <div className="d-flex align-items-center gap-2">
           <LogoBox />
-          <LeftSideBarToggle />
-          <div className="topbar-item d-none d-md-flex px-2">
+          {/* <LeftSideBarToggle /> */}
+          {/* <div className="topbar-item d-none d-md-flex px-2">
             <div>
               <h4 className="page-title fs-20 fw-semibold mb-0">{title}</h4>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="d-flex align-items-center gap-2">
-          <div className="topbar-item d-flex d-xl-none">
+          {/* <div className="topbar-item d-flex d-xl-none">
             <button className="topbar-link" data-bs-toggle="modal" data-bs-target="#searchModal" type="button">
               <IconifyIcon icon='ri:search-line' className="fs-22" />
             </button>
@@ -47,7 +47,7 @@ const TopBar = () => {
           <Notifications />
           <Apps />
           <ThemeCustomizeToggle />
-          <ThemeModeToggle />
+          <ThemeModeToggle /> */}
           <ProfileDropdown />
 
 

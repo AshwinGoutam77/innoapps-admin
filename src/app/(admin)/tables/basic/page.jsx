@@ -77,9 +77,7 @@ const InverseTable = () => {
     </ComponentContainerCard>;
 };
 const StripedRowTable = () => {
-  return <ComponentContainerCard title='Contact Listing' description={<>
-      Use <code>.table-striped</code> to add zebra-striping to any table row
-      within the <code>&lt;tbody&gt;</code>.</>}>
+  return <ComponentContainerCard title='Contact Listing'>
       <div className="table-responsive-sm">
         <table className="table table-striped mb-0">
           <thead>

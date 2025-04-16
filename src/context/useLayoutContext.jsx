@@ -137,13 +137,13 @@ const LayoutProvider = ({
     toggleDocumentAttribute('data-menu-color', settings.mainMenu.color);
     toggleDocumentAttribute('data-sidenav-size', settings.mainMenu.size);
     toggleDocumentAttribute('data-layout-mode', settings.mode);
-    toggleDocumentAttribute('data-layout', settings.orientation === 'vertical' ? '' : 'topnav');
+    toggleDocumentAttribute('data-layout', settings.orientation !== 'vertical' ? '' : 'topnav');
     return () => {
       toggleDocumentAttribute('data-bs-theme', settings.theme, true);
       toggleDocumentAttribute('data-topbar-color', settings.topBar.color, true);
       toggleDocumentAttribute('data-sidenav-size', settings.mainMenu.color, true);
       toggleDocumentAttribute('data-layout-mode', settings.mainMenu.size, true);
-      toggleDocumentAttribute('data-layout', settings.orientation === 'vertical' ? '' : 'topnav', true);
+      toggleDocumentAttribute('data-layout', settings.orientation !== 'vertical' ? '' : 'topnav', true);
     };
   }, [settings]);
   const resetSettings = () => updateSettings(INIT_STATE);

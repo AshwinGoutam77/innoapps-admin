@@ -32,18 +32,14 @@ export default function AddBlogs() {
     }, [blogId]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const payload = { title, category, description, imageUrl };
-
+        e.preventDefault(); 
+        const payload = { title, category, description, imageUrl }; 
         const res = await fetch('/api/blogs', {
             method: isEditMode ? 'PUT' : 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(isEditMode ? { ...payload, id: blogId } : payload),
-        });
-
-        const result = await res.json();
-
+        }); 
+        const result = await res.json(); 
         if (res.ok) {
             router.push('/blogs');
         } else {

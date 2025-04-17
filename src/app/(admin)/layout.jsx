@@ -17,7 +17,7 @@ const AdminLayout = ({
   } = useLayoutContext();
   const menuItems = getHorizontalMenuItems();
   return <>
-      {orientation !== 'vertical' ? <div className="wrapper">
+      {orientation == 'vertical' ? <div className="wrapper">
             <TopBar />
             <LeftSideBar />
             <div className="modal fade" id="searchModal" tabIndex={-1} aria-labelledby="searchModalLabel" aria-hidden="true">

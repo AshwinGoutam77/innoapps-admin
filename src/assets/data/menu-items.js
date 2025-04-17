@@ -695,11 +695,12 @@ export const HORIZONTAL_MENU_ITEM = [{
   key: 'estimate',
   label: 'Estimate Project',
   icon: 'tabler:apps', 
+  url: '/estimate-project'
 }, {
   key: 'blogs',
   label: 'Blogs',
   icon: 'tabler:file-description',
-  
+  url: '/blogs'
 // }, {
 //   key: 'components',
 //   label: 'Components',

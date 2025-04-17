@@ -87,3 +87,4 @@ export async function DELETE(req) {
         return new Response(JSON.stringify({ message: 'Failed to delete blog', error }), { status: 500 });
     }
 }
+

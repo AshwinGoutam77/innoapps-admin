@@ -23,7 +23,7 @@ export async function GET() {
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { title, category, description, imageUrl } = body;
+        const { title, category, description, imageUrl,isActive} = body;
 
         if (!title || !category || !description || !imageUrl) {
             return new Response(JSON.stringify({ message: 'Missing fields' }), { status: 400 });
@@ -37,6 +37,7 @@ export async function POST(req) {
             category,
             description,
             imageUrl,
+            isActive,
             createdAt: new Date()
         });
 

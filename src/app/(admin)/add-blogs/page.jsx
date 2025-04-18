@@ -13,33 +13,36 @@ export default function AddBlogs() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [isActive, setisActive] = useState("true");
 
+  useEffect(() => {
+    console.log(isActive);
+  }, [isActive]);
   const isEditMode = Boolean(blogId);
-  console.log("ppp", isEditMode);
+  // console.log("ppp", isEditMode);
 
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchBlog = async () => {
-            setLoading(true);
-            const res = await fetch(`/api/blogs/${blogId}`);
-            const data = await res.json();
-            setTitle(data.title);
-            setCategory(data.category);
-            setDescription(data.description);
-            setImageUrl(data.imageUrl);
-            setLoading(false);
-        };
-        if (isEditMode) fetchBlog();
-        else setLoading(false);
-    }, [blogId]);
+  useEffect(() => {
+    const fetchBlog = async () => {
+      setLoading(true);
+      const res = await fetch(`/api/blogs/${blogId}`);
+      const data = await res.json();
+      setTitle(data.title);
+      setCategory(data.category);
+      setDescription(data.description);
+      setImageUrl(data.imageUrl);
+      setLoading(false);
+    };
+    if (isEditMode) fetchBlog();
+    else setLoading(false);
+  }, [blogId]);
 
-    if (loading) return <p>Loading blog...</p>;
-
+  if (loading) return <p>Loading blog...</p>;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { title, category, description, imageUrl };
+    const payload = { title, category, description, imageUrl ,isActive};
     const res = await fetch("/api/blogs", {
       method: isEditMode ? "PUT" : "POST",
       headers: { "Content-Type": "application/json" },
@@ -89,7 +92,7 @@ export default function AddBlogs() {
             required
           />
         </div>
-       
+
         <div>
           <label>Description</label>
           <ReactQuill
@@ -99,12 +102,30 @@ export default function AddBlogs() {
           />
         </div>
         <div>
-          <strong>Save as:</strong> 
+          <strong>Save as:</strong>
           <div className="ms-1">
-            <input type="radio" name="blogstatus" id="activeBlog" />
+            <input
+              type="radio"
+              name="blogstatus"
+              id="activeBlog"
+              value={true}
+              checked={isActive=="true"}
+              onChange={(e) => {
+                setisActive(e.target.value);
+              }}
+            />
             <label htmlFor="activeBlog">&nbsp;&nbsp; Active</label>
             <br />
-            <input type="radio" name="blogstatus" id="draft" />
+            <input
+              type="radio"
+              name="blogstatus"
+              id="draft"
+              value={false}
+              checked={isActive=="false"}
+              onChange={(e) => {
+                setisActive(e.target.value);
+              }}
+            />
             <label htmlFor="draft">&nbsp;&nbsp; Draft</label>
           </div>
         </div>
@@ -113,7 +134,6 @@ export default function AddBlogs() {
             {isEditMode ? "Update Blog" : "Save Blog"}
           </button>
         </div>
-       
       </form>
     </ComponentContainerCard>
   );

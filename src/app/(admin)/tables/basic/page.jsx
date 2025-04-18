@@ -663,22 +663,22 @@ const CaptionTopTable = () => {
       </div>
     </ComponentContainerCard>;
 };
-const BasicTables = () => {
+export const BasicTables = () => {
   return <>
-      {/* <Row>
+      <Row>
         <Col xl={12}>
           <BasicTable />
         </Col> 
-      </Row> */}
+      </Row>
       <Row>
         <Col xl={12}>
           <StripedRowTable />
         </Col>
-        {/* <Col xl={6}>
+        <Col xl={6}>
           <StripedColumnsTable />
-        </Col> */}
+        </Col>
       </Row>
-      {/* <Row>
+      <Row>
         <Col xl={6}>
           <TableHeadOptions />
         </Col>
@@ -738,7 +738,7 @@ const BasicTables = () => {
         <Col xl={6}>
           <CaptionTopTable />
         </Col>
-      </Row>   */}
+      </Row>  
     </>;
 };
 export default BasicTables;

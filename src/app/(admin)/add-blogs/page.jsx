@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import ComponentContainerCard from "@/components/ComponentContainerCard";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { result } from "lodash";
 
 export default function AddBlogs() {
   const searchParams = useSearchParams();
@@ -13,7 +14,7 @@ export default function AddBlogs() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [isActive, setisActive] = useState("true");
+  const [isActive, setisActive] = useState(true);
 
   useEffect(() => {
     console.log(isActive);
@@ -109,7 +110,7 @@ export default function AddBlogs() {
               name="blogstatus"
               id="activeBlog"
               value={true}
-              checked={isActive=="true"}
+              checked={result.isActive==true}
               onChange={(e) => {
                 setisActive(e.target.value);
               }}
@@ -121,7 +122,7 @@ export default function AddBlogs() {
               name="blogstatus"
               id="draft"
               value={false}
-              checked={isActive=="false"}
+              checked={isActive.isActive==false}
               onChange={(e) => {
                 setisActive(e.target.value);
               }}

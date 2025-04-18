@@ -31,8 +31,8 @@ export default function Page() {
       requestOptions
     );
     const result = res.json();
-    if (result.message == "Blog updated") {
-      alert(result.message);
+    if (res.ok) { 
+        fetchBlogs()
     } else {
       console.log(result);
     }
@@ -99,7 +99,9 @@ export default function Page() {
                             defaultChecked
                             data-switch="success"
                             onClick={() => {
-                              updateBlogStatus(record._id, !record.isActive);
+                                updateBlogStatus(record._id, !record.isActive);
+                                console.log(record.isActive);
+                                
                             }}
                           />
                           <label
@@ -112,11 +114,12 @@ export default function Page() {
                       ) : (
                         <>
                           <input
-                            type="checkbox"
+                            type="checkbox" 
                             id={`switch-${record._id}`}
                             data-switch="success"
                             onClick={() => {
-                              updateBlogStatus(record._id, !record.isActive);
+                                updateBlogStatus(record._id, !record.isActive);
+                                console.log(record.isActive);
                             }}
                           />
                           <label
@@ -166,6 +169,7 @@ export default function Page() {
                     <td>
                       <Link
                         href={`/blogs/${record._id}`}
+                        target="_blank"
                         className="text-reset fs-16 px-1"
                       >
                         <IconifyIcon icon="tabler:eye" />

@@ -36,7 +36,7 @@ export async function PUT(req, { params }) {
         const { isActive } = await req.json();
         const client = await clientPromise;
         const db = client.db('Innoapps');  
-        if(!isActive=="undefined"){
+        if(typeof isActive === "undefined"){
             return NextResponse.json({ message: 'Please provide the blog status' }, { status: 404 });  
         } 
         const blog=await db.collection('blogs').updateOne(

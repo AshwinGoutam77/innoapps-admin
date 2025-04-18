@@ -4,7 +4,7 @@ import '@/assets/scss/app.scss';
 import { DEFAULT_PAGE_TITLE } from "@/context/constants";
 export const metadata = {
   title: {
-    template: '%s | Adminto NextJs - Responsive Bootstrap 5 Admin Dashboard',
+    template: 'Innoapps',
     default: DEFAULT_PAGE_TITLE
   },
   description: 'A fully featured admin theme which can be used to build CRM, CMS, etc.'

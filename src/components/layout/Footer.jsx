@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 const Footer = () => {
-  return <footer className="footer">
-      <div className="page-container">
+  return <footer className="">
+      {/* <div className="page-container">
         <Row>
           <Col md={6} className="text-center text-md-start">
             © Adminto - By <span className="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Coderthemes</span>
@@ -15,7 +15,7 @@ const Footer = () => {
             </div>
           </Col>
         </Row>
-      </div>
+      </div> */}
     </footer>;
 };
 export default Footer;

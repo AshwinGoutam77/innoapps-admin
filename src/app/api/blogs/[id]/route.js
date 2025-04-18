@@ -25,3 +25,5 @@ export async function GET(req, { params }) {
         return NextResponse.json({ message: 'Failed to fetch blog', error: error.message }, { status: 500 });
     }
 }
+
+

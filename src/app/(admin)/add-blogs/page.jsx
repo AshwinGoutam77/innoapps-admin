@@ -18,18 +18,25 @@ export default function AddBlogs() {
     console.log("ppp", isEditMode);
 
 
-    // fetch blog data if in edit mode
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         const fetchBlog = async () => {
+            setLoading(true);
             const res = await fetch(`/api/blogs/${blogId}`);
             const data = await res.json();
             setTitle(data.title);
             setCategory(data.category);
             setDescription(data.description);
             setImageUrl(data.imageUrl);
+            setLoading(false);
         };
         if (isEditMode) fetchBlog();
+        else setLoading(false);
     }, [blogId]);
+
+    if (loading) return <p>Loading blog...</p>;
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();

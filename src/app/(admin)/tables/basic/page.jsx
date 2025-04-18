@@ -8,35 +8,48 @@ import { expandableRecords, nestedRecords, records } from '../data';
 export const metadata = {
   title: 'Basic Tables'
 };
-const BasicTable = () => {
-  return <ComponentContainerCard title='Contact Listing'  >
+export const BasicTable = () => {
+  return <ComponentContainerCard title='Estimate Project'  >
       <div className="table-responsive-sm">
         <table className="table mb-0">
           <thead>
-            <tr>
-              <th>Name</th>
-              <th>Phone Number</th>
-              <th>Date of Birth</th>
-              <th>Active?</th>
+            <tr>  
+              <th>Project Type</th> 
+              <th>Project</th>
+              <th>budget</th>
+              <th>Duration</th>
+              <th>Acction</th>
             </tr>
           </thead>
           <tbody>
-            {records.map((item, idx) => <tr key={idx}>
-                  <td>{item.name}</td>
-                  <td>{item.phoneNo}</td>
-                  <td>{item.dob}</td>
-                  <td>
-                    <div>
-                      {item.active ? <>
-                            <input type="checkbox" id="switch01" defaultChecked data-switch="success" />
-                            <label htmlFor="switch01" data-on-label="Yes" data-off-label="No" className="mb-0 d-block" />
-                          </> : <>
-                            <input type="checkbox" id="switch04" data-switch="success" />
-                            <label htmlFor="switch04" data-on-label="Yes" data-off-label="No" className="mb-0 d-block" />
-                          </>}
-                    </div>
-                  </td>
-                </tr>)}
+             <tr>
+              <td>Development</td>
+              <td>Blockchain Development</td>
+              <td>Above 25K</td>
+              <td>3 Months</td>
+              <td> <IconifyIcon icon='tabler:trash' className="fs-22" /></td>
+             </tr>
+             <tr>
+              <td>Designers</td>
+              <td>Product Design</td>
+              <td>Above 20K</td>
+              <td>2.5 Months</td>
+              <td><IconifyIcon icon='tabler:trash' className="fs-22" /></td>
+             </tr>
+             <tr>
+              <td>Staff Augmentation</td>
+              <td>Others</td>
+              <td>Above 30K</td>
+              <td>3 Months</td>
+              <td> <IconifyIcon icon='tabler:trash' className="fs-22" /></td>
+             </tr>
+             <tr>
+              <td>Quality Assurance</td>
+              <td>Security Tester</td>
+              <td>Above 25K</td>
+              <td>1 Months</td>
+              <td> <IconifyIcon icon='tabler:trash' className="fs-22" /></td>
+             </tr>
           </tbody>
         </table>
       </div>
@@ -98,9 +111,9 @@ const StripedRowTable = () => {
                   <td>{record.accountNo}</td>
                   <td>{record.dob}</td>
                   <td>
-                    <Link href="" className="text-reset fs-16 px-1">
+                    {/* <Link href="" className="text-reset fs-16 px-1">
                       <IconifyIcon icon="tabler:pencil" />
-                    </Link>
+                    </Link> */}
                     <Link href="" className="text-reset fs-16 px-1">
                       <IconifyIcon icon="tabler:trash" />
                     </Link>

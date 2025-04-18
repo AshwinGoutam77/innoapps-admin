@@ -45,7 +45,7 @@ export default function Page() {
 
 
     const StripedRowTable = () => {
-        return <ComponentContainerCard title='Contact Listing' btn>
+        return <ComponentContainerCard title='Blog Listing' btn>
             <div className="table-responsive-sm">
                 <table className="table table-striped mb-0">
                     <thead>

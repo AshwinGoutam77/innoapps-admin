@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ComponentContainerCard from "@/components/ComponentContainerCard";
 import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
-import { result } from "lodash";
+import "react-quill-new/dist/quill.snow.css"; 
 
 export default function AddBlogs() {
   const searchParams = useSearchParams();
@@ -109,8 +108,7 @@ export default function AddBlogs() {
               type="radio"
               name="blogstatus"
               id="activeBlog"
-              value={true}
-              checked={result.isActive==true}
+              value={true} 
               onChange={(e) => {
                 setisActive(e.target.value);
               }}
@@ -121,8 +119,7 @@ export default function AddBlogs() {
               type="radio"
               name="blogstatus"
               id="draft"
-              value={false}
-              checked={isActive.isActive==false}
+              value={false}  
               onChange={(e) => {
                 setisActive(e.target.value);
               }}

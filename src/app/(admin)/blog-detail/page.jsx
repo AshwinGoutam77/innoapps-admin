@@ -76,7 +76,6 @@ export default function Page() {
                 {/* Add refs to each heading */}
                 {headings.map((h) => (
                     <div key={h.id} id={h.id} ref={headingRefs[h.id]}>
-                        {/* Placeholder for each heading to ensure scrolling works */}
                     </div>
                 ))}
             </main>

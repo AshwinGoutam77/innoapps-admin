@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ComponentContainerCard from "@/components/ComponentContainerCard";
 import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css"; 
+import "react-quill-new/dist/quill.snow.css";
+import { result } from "lodash";
 
 export default function AddBlogs() {
   const searchParams = useSearchParams();
@@ -13,11 +14,9 @@ export default function AddBlogs() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [isActive, setisActive] = useState(true);
+  const [isActive, setisActive] = useState();
 
-  useEffect(() => {
-    console.log(isActive);
-  }, [isActive]);
+ 
   const isEditMode = Boolean(blogId);
   // console.log("ppp", isEditMode);
 
@@ -33,6 +32,7 @@ export default function AddBlogs() {
       setDescription(data.description);
       setImageUrl(data.imageUrl);
       setLoading(false);
+      setisActive(data.isActive);
     };
     if (isEditMode) fetchBlog();
     else setLoading(false);
@@ -108,10 +108,9 @@ export default function AddBlogs() {
               type="radio"
               name="blogstatus"
               id="activeBlog"
-              value={true} 
-              onChange={(e) => {
-                setisActive(e.target.value);
-              }}
+              value="true"
+              checked={isActive === true}
+              onChange={(e) => setisActive(e.target.value === "true")}
             />
             <label htmlFor="activeBlog">&nbsp;&nbsp; Active</label>
             <br />
@@ -119,10 +118,9 @@ export default function AddBlogs() {
               type="radio"
               name="blogstatus"
               id="draft"
-              value={false}  
-              onChange={(e) => {
-                setisActive(e.target.value);
-              }}
+              value="false"
+              checked={isActive === false}
+              onChange={(e) => setisActive(e.target.value === "true")}
             />
             <label htmlFor="draft">&nbsp;&nbsp; Draft</label>
           </div>

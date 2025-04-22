@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import ComponentContainerCard from "@/components/ComponentContainerCard";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { result } from "lodash";
 
 export default function AddBlogs() {
   const searchParams = useSearchParams();
@@ -13,9 +14,11 @@ export default function AddBlogs() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [isActive, setisActive] = useState();
 
+ 
   const isEditMode = Boolean(blogId);
-  console.log("ppp", isEditMode);
+  // console.log("ppp", isEditMode);
 
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +32,7 @@ export default function AddBlogs() {
       setDescription(data.description);
       setImageUrl(data.imageUrl);
       setLoading(false);
+      setisActive(data.isActive);
     };
     if (isEditMode) fetchBlog();
     else setLoading(false);
@@ -36,10 +40,9 @@ export default function AddBlogs() {
 
   if (loading) return <p>Loading blog...</p>;
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { title, category, description, imageUrl };
+    const payload = { title, category, description, imageUrl ,isActive};
     const res = await fetch("/api/blogs", {
       method: isEditMode ? "PUT" : "POST",
       headers: { "Content-Type": "application/json" },
@@ -130,10 +133,24 @@ export default function AddBlogs() {
         <div>
           <strong>Save as:</strong>
           <div className="ms-1">
-            <input type="radio" name="blogstatus" id="activeBlog" />
+            <input
+              type="radio"
+              name="blogstatus"
+              id="activeBlog"
+              value="true"
+              checked={isActive === true}
+              onChange={(e) => setisActive(e.target.value === "true")}
+            />
             <label htmlFor="activeBlog">&nbsp;&nbsp; Active</label>
             <br />
-            <input type="radio" name="blogstatus" id="draft" />
+            <input
+              type="radio"
+              name="blogstatus"
+              id="draft"
+              value="false"
+              checked={isActive === false}
+              onChange={(e) => setisActive(e.target.value === "true")}
+            />
             <label htmlFor="draft">&nbsp;&nbsp; Draft</label>
           </div>
         </div>
@@ -142,7 +159,7 @@ export default function AddBlogs() {
             {isEditMode ? "Update Blog" : "Save Blog"}
           </button>
         </div>
-
+       
       </form>
     </ComponentContainerCard>
   );

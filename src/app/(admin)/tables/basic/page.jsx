@@ -88,9 +88,9 @@ const InverseTable = () => {
         </table>
       </div>
     </ComponentContainerCard>;
-};
-const StripedRowTable = () => {
-  return <ComponentContainerCard title='Contact Listing'>
+}; 
+export const StripedRowTable = () => {
+  return <ComponentContainerCard title='Contact Listing' exportData>
       <div className="table-responsive-sm">
         <table className="table table-striped mb-0">
           <thead>
@@ -663,7 +663,7 @@ const CaptionTopTable = () => {
       </div>
     </ComponentContainerCard>;
 };
-const BasicTables = () => {
+export const BasicTables = () => {
   return <>
       {/* <Row>
         <Col xl={12}>

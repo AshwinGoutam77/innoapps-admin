@@ -48,7 +48,7 @@ const TopBar = () => {
           <Apps />
           <ThemeCustomizeToggle />
           <ThemeModeToggle /> */}
-          <ProfileDropdown />
+          {/* <ProfileDropdown /> */}
 
 
 

@@ -5,11 +5,13 @@ const ComponentContainerCard = ({
   description,
   children,
   btn,
+  exportData
 }) => {
   return <Card>
     <CardHeader className="d-flex align-items-center justify-content-between border-0 border-bottom border-dashed">
       <h4 className="header-title">{title}</h4>
       {btn && <Link href="/add-blogs" className='btn btn-primary rounded-pill'>Add Blogs</Link>}
+      {exportData && <button className='btn btn-primary rounded-pill'>Export</button>}
     </CardHeader>
     <CardBody>
       {description && <p className="text-muted">{description}</p>}

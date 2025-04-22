@@ -688,13 +688,13 @@ export const MENU_ITEMS = [{
 export const HORIZONTAL_MENU_ITEM = [{
   key: 'cotact',
   label: 'Contact Listing',
-  // icon: 'tabler:dashboard',
+  icon: 'mdi:contact',
   
   url: '/dashboard'
 }, {
   key: 'estimate',
   label: 'Estimate Project',
-  icon: 'tabler:apps', 
+  icon: 'hugeicons:estimate-01', 
   url: '/estimate-project'
 }, {
   key: 'blogs',
@@ -1113,4 +1113,11 @@ export const HORIZONTAL_MENU_ITEM = [{
 //       variant: 'badge badge-soft-danger '
 //     }
 //   }]
-}];
+},
+{
+  key: 'logout',
+  label: 'Log Out',
+  icon: 'material-symbols:logout',
+  className:"llll"
+},
+];

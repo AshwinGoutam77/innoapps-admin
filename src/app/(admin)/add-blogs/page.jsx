@@ -17,24 +17,24 @@ export default function AddBlogs() {
   const isEditMode = Boolean(blogId);
   console.log("ppp", isEditMode);
 
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchBlog = async () => {
-            setLoading(true);
-            const res = await fetch(`/api/blogs/${blogId}`);
-            const data = await res.json();
-            setTitle(data.title);
-            setCategory(data.category);
-            setDescription(data.description);
-            setImageUrl(data.imageUrl);
-            setLoading(false);
-        };
-        if (isEditMode) fetchBlog();
-        else setLoading(false);
-    }, [blogId]);
+  useEffect(() => {
+    const fetchBlog = async () => {
+      setLoading(true);
+      const res = await fetch(`/api/blogs/${blogId}`);
+      const data = await res.json();
+      setTitle(data.title);
+      setCategory(data.category);
+      setDescription(data.description);
+      setImageUrl(data.imageUrl);
+      setLoading(false);
+    };
+    if (isEditMode) fetchBlog();
+    else setLoading(false);
+  }, [blogId]);
 
-    if (loading) return <p>Loading blog...</p>;
+  if (loading) return <p>Loading blog...</p>;
 
 
   const handleSubmit = async (e) => {
@@ -51,6 +51,34 @@ export default function AddBlogs() {
     } else {
       alert(result.message || "Something went wrong!");
     }
+  };
+
+  const modules = {
+    toolbar: [[{
+      font: []
+    }, {
+      size: []
+    }], ['bold', 'italic', 'underline', 'strike'], [{
+      color: []
+    }, {
+      background: []
+    }], [{
+      script: 'super'
+    }, {
+      script: 'sub'
+    }], [{
+      header: [false, 1, 2, 3, 4, 5, 6]
+    }, 'blockquote', 'code-block'], [{
+      list: 'ordered'
+    }, {
+      list: 'bullet'
+    }, {
+      indent: '-1'
+    }, {
+      indent: '+1'
+    }], ['direction', {
+      align: []
+    }], ['link', 'image', 'video'], ['clean']]
   };
 
   return (
@@ -89,17 +117,18 @@ export default function AddBlogs() {
             required
           />
         </div>
-       
+
         <div>
           <label>Description</label>
           <ReactQuill
             theme="snow"
             value={description}
             onChange={setDescription}
+            modules={modules}
           />
         </div>
         <div>
-          <strong>Save as:</strong> 
+          <strong>Save as:</strong>
           <div className="ms-1">
             <input type="radio" name="blogstatus" id="activeBlog" />
             <label htmlFor="activeBlog">&nbsp;&nbsp; Active</label>
@@ -113,7 +142,7 @@ export default function AddBlogs() {
             {isEditMode ? "Update Blog" : "Save Blog"}
           </button>
         </div>
-       
+
       </form>
     </ComponentContainerCard>
   );

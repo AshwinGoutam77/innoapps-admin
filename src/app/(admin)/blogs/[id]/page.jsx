@@ -16,6 +16,7 @@ const Page = () => {
   const [headings, setHeadings] = useState([]);
   const [updatedContent, setUpdatedContent] = useState([]);
   const headingRefs = useRef({});
+  const [activeHeadingId, setActiveHeadingId] = useState(null);
 
   const getBlog = async () => {
     const res = await fetch(`/api/blogs/${id}`);
@@ -73,26 +74,45 @@ const Page = () => {
         element.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
       window.scrollTo({ top: y, behavior: "smooth" });
+      setActiveHeadingId(id); // <-- Add this
     }
   };
-
   useEffect(() => {
     getBlog();
     console.log(headings.length);
   }, [id]);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+
+      for (let i = headings.length - 1; i >= 0; i--) {
+        const id = headings[i].id;
+        const element = headingRefs.current[id];
+
+        if (element) {
+          const offsetTop = element.offsetTop;
+          if (scrollPosition + 60 >= offsetTop) {
+            setActiveHeadingId(id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [headings]);
 
   return (
     <div className="p-6">
       {data ? (
         <div>
           <div className="container mx-auto d-flex flex-column justify-content-center align-items-center">
-            <p className="text-gray-500 mb-4">{data.category}</p>
-            <h1 className="text-3xl font-bold">{data.title}</h1>
-            <img
-              src={data.imageUrl}
-              alt="Blog"
-              className="mb-4 img-fluid rounded-lg"
-            />
+            <p className="category">{data.category}</p>
+            <h1 className="blog-title">{data.title}</h1>
+            <div className="img-container">
+              <img src={data.imageUrl} alt="Blog" className="mb-4" />
+            </div>
           </div>
 
           <div className="container">
@@ -100,15 +120,15 @@ const Page = () => {
               <div className="description-left-section-main">
                 <div className="description-left-section">
                   <div className="table-of-content heading-animate">
-                    <h2 className="">
-                      Table of Contents
-                    </h2>
-                    <ul className="list-disc pl-4">
+                    <h2 className="table-content-heading">Table of Contents</h2>
+                    <ul>
                       {headings.map(({ text, id }) => (
                         <li key={id}>
                           <button
                             onClick={() => scrollToHeading(id)}
-                            className="text-blue-600 hover:underline"
+                            className={
+                              id === activeHeadingId ? "active-heading" : ""
+                            }
                           >
                             {text}
                           </button>
@@ -116,19 +136,9 @@ const Page = () => {
                       ))}
                     </ul>
                   </div>
-                  <div
-                    className="efficient-development heading-animate"
-                    
-                  >
-                    <div>
-                      <h3>Efficient software development</h3>
-                      <p>Build faster, Deliver more</p>
-                    </div>
-                    <div></div>
-                  </div>
                 </div>
               </div>
-              <div>{updatedContent}</div>
+              <div className="blog-description">{updatedContent}</div>
             </div>
           </div>
         </div>

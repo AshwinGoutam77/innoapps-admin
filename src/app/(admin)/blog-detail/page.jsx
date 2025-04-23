@@ -1,7 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-
 const generateIdFromText = (text) => {
   return text
     .toLowerCase()

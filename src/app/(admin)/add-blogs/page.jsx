@@ -8,33 +8,6 @@ import { result } from "lodash";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
 export default function AddBlogs() {
-  const modules = {
-    toolbar: [[{
-      font: []
-    }, {
-      size: []
-    }], ['bold', 'italic', 'underline', 'strike'], [{
-      color: []
-    }, {
-      background: []
-    }], [{
-      script: 'super'
-    }, {
-      script: 'sub'
-    }], [{
-      header: [false, 1, 2, 3, 4, 5, 6]
-    }, 'blockquote', 'code-block'], [{
-      list: 'ordered'
-    }, {
-      list: 'bullet'
-    }, {
-      indent: '-1'
-    }, {
-      indent: '+1'
-    }], ['direction', {
-      align: []
-    }], ['link', 'image', 'video'], ['clean']]
-  };
   const searchParams = useSearchParams();
   const router = useRouter();
   const blogId = searchParams.get("id"); // check for edit mode
@@ -67,17 +40,17 @@ export default function AddBlogs() {
   }, [blogId]);
 
   if (loading) return <>
-   <Skeleton width={"250px"} height={"40px"}  highlightColor  />
-   <div style={{display:"flex",gap:"30px",flexDirection:"column"}}>
-   <Skeleton width={"100%"} height={"20px"}   highlightColor  />
-   <Skeleton width={"100%"} height={"20px"}   highlightColor  />
-   <Skeleton width={"100%"} height={"20px"}   highlightColor  />
-   <Skeleton width={"100%"} height={"20px"}   highlightColor  />
-   <Skeleton width={"100%"} height={"20px"}   highlightColor  />
-   <Skeleton width={"100%"} height={"20px"}   highlightColor  />
-   <Skeleton width={"100%"} height={"20px"}   highlightColor  />
-   <Skeleton width={"100px"} height={"20px"}   highlightColor  />
-   </div>
+    <Skeleton width={"250px"} height={"40px"} highlightColor />
+    <div style={{ display: "flex", gap: "30px", flexDirection: "column" }}>
+      <Skeleton width={"100%"} height={"20px"} highlightColor />
+      <Skeleton width={"100%"} height={"20px"} highlightColor />
+      <Skeleton width={"100%"} height={"20px"} highlightColor />
+      <Skeleton width={"100%"} height={"20px"} highlightColor />
+      <Skeleton width={"100%"} height={"20px"} highlightColor />
+      <Skeleton width={"100%"} height={"20px"} highlightColor />
+      <Skeleton width={"100%"} height={"20px"} highlightColor />
+      <Skeleton width={"100px"} height={"20px"} highlightColor />
+    </div>
   </>;
 
   const handleSubmit = async (e) => {
@@ -146,11 +119,10 @@ export default function AddBlogs() {
         <div>
           <label>Description</label>
           <ReactQuill
-          modules={modules}
+            modules={modules}
             theme="snow"
             value={description}
             onChange={setDescription}
-            modules={modules}
           />
         </div>
         <div>

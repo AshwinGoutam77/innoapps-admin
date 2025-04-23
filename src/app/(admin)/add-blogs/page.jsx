@@ -16,7 +16,7 @@ export default function AddBlogs() {
   const [imageUrl, setImageUrl] = useState("");
   const [isActive, setisActive] = useState();
 
- 
+
   const isEditMode = Boolean(blogId);
   // console.log("ppp", isEditMode);
 
@@ -42,7 +42,7 @@ export default function AddBlogs() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { title, category, description, imageUrl ,isActive};
+    const payload = { title, category, description, imageUrl, isActive };
     const res = await fetch("/api/blogs", {
       method: isEditMode ? "PUT" : "POST",
       headers: { "Content-Type": "application/json" },
@@ -57,31 +57,13 @@ export default function AddBlogs() {
   };
 
   const modules = {
-    toolbar: [[{
-      font: []
-    }, {
-      size: []
-    }], ['bold', 'italic', 'underline', 'strike'], [{
-      color: []
-    }, {
-      background: []
-    }], [{
-      script: 'super'
-    }, {
-      script: 'sub'
-    }], [{
+    toolbar: [['bold', 'italic', 'underline'], [{
       header: [false, 1, 2, 3, 4, 5, 6]
-    }, 'blockquote', 'code-block'], [{
-      list: 'ordered'
-    }, {
+    }, 'blockquote'], [{
       list: 'bullet'
-    }, {
-      indent: '-1'
-    }, {
-      indent: '+1'
     }], ['direction', {
       align: []
-    }], ['link', 'image', 'video'], ['clean']]
+    }], ['link', 'image']]
   };
 
   return (
@@ -159,7 +141,7 @@ export default function AddBlogs() {
             {isEditMode ? "Update Blog" : "Save Blog"}
           </button>
         </div>
-       
+
       </form>
     </ComponentContainerCard>
   );

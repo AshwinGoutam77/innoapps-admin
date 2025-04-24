@@ -12,7 +12,7 @@ import Select from 'react-select';
 export default function AddBlogs() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const blogId = searchParams.get("id"); // check for edit mode
+  const blogId = searchParams.get("id");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -28,7 +28,7 @@ export default function AddBlogs() {
   const fetchCategories = async () => {
     const res = await fetch("/api/blogs/categories");
     const data = await res.json();
-    setCategories(data.categories.map((cat) => cat.name)); // assuming { name: 'Tech' }
+    setCategories(data.categories.map((cat) => cat.name));
   };
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export default function AddBlogs() {
     if (event.key === "Enter" && inputValue) {
       onCategoryCreate(inputValue);
       setInputValue("");
-      event.preventDefault(); // prevent default form submit if inside form
+      event.preventDefault(); 
     }
   };
 
@@ -103,7 +103,7 @@ export default function AddBlogs() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Use selectedCategory from the Select component
+   
     const payload = {
       title,
       category: selectedCategory,

@@ -9,6 +9,17 @@ import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 import Select from 'react-select';
 
+
+const generateSlug=(text)=> {
+  return text
+    .toLowerCase()                          // Convert to lowercase
+    .replace(/&/g, 'and')                   // Replace &
+    .replace(/[^\w\s-]/g, '')               // Remove non-word characters except space and hyphen
+    .trim()                                 // Trim whitespace
+    .replace(/\s+/g, '-')                   // Replace spaces with hyphens
+    .replace(/-+/g, '-');                   // Remove multiple hyphens
+}
+
 export default function AddBlogs() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -17,6 +28,9 @@ export default function AddBlogs() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [slug, setSlug] = useState("");
   const isEditMode = Boolean(blogId);
   // console.log("ppp", isEditMode);
   const [categories, setCategories] = useState([]);
@@ -43,12 +57,15 @@ export default function AddBlogs() {
       setSelectedCategory(data.category);
       setLoading(false);
       setisActive(data.isActive);
+      setMetaTitle(data.metaTitle);
+      setMetaDescription(data.metaDescription);
     };
     if (isEditMode) fetchBlog();
-    else setLoading(false);
-
-    fetchCategories();
+    else setLoading(false); 
+    fetchCategories();  
   }, [blogId]);
+ 
+ 
 
   const onCategoryCreate = async (name) => {
     const res = await fetch("/api/blogs/categories", {
@@ -101,15 +118,18 @@ export default function AddBlogs() {
   </>;
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
+    const generatedSlug = generateSlug(title);
 
-   
     const payload = {
       title,
       category: selectedCategory,
       description,
       imageUrl,
       isActive,
+      metaTitle,
+      metaDescription,
+      slug:generatedSlug,
     };
 
     const res = await fetch("/api/blogs", {
@@ -136,12 +156,35 @@ export default function AddBlogs() {
     }], ['link', 'image']]
   };
 
+  
+ 
   return (
     <ComponentContainerCard title={isEditMode ? "Edit Blog" : "Add Blog"}>
       <form
         onSubmit={handleSubmit}
         className="space-y-6 d-flex flex-column gap-2"
       >
+        <div>
+          <label>Meta Title</label>
+          <input
+            type="text"
+            className="form-control"
+            value={metaTitle || ""}
+            onChange={(e) => setMetaTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Meta Description</label>
+          <input
+            type="text"
+            className="form-control"
+            value={metaDescription || ""}
+            onChange={(e) => setMetaDescription(e.target.value)}
+            required
+          />
+        </div>
+        <div className="border-0 border-bottom border-dashed my-2" ></div>
         <div>
           <label>Image URL</label>
           <input

@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ComponentContainerCard from "@/components/ComponentContainerCard";
-import { expandableRecords, records } from "../tables/data"; 
+import { expandableRecords, records } from "../tables/data";
 import Link from "next/link";
 import IconifyIcon from "@/components/wrappers/IconifyIcon";
 import Swal from "sweetalert2";
 import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css'
+import "react-loading-skeleton/dist/skeleton.css";
 export default function Page() {
   const [Blogs, setBlogs] = useState("");
   const fetchBlogs = async () => {
@@ -32,8 +32,8 @@ export default function Page() {
       requestOptions
     );
     const result = res.json();
-    if (res.ok) { 
-        fetchBlogs()
+    if (res.ok) {
+      fetchBlogs();
     } else {
       console.log(result);
     }
@@ -66,33 +66,33 @@ export default function Page() {
   const StripedRowTable = () => {
     return (
       <ComponentContainerCard title="Blog Listing" btn>
-      {
-        Blogs?<div className="table-responsive-sm">
-        <table className="table table-striped mb-0">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Title</th>
-              <th>Category</th>
-              {/* <th>Active</th> */}
-              <th>Action</th>
-              {/* <th>View</th> */}
-            </tr>
-          </thead>
-          <tbody>
-            {(Blogs || []).map((record, idx) => {
-              return (
-                <tr key={idx}>
-                  <td>
-                    <img
-                      src={record.imageUrl}
-                      alt="blog-img"
-                      className="me-2 avatar-lg rounded"
-                    />
-                  </td>
-                  <td className="table-user">{record.title}</td>
-                  <td>{record.category}</td>
-                  {/* <td>
+        {Blogs ? (
+          <div className="table-responsive-sm">
+            <table className="table table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  {/* <th>Active</th> */}
+                  <th>Action</th>
+                  {/* <th>View</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                {(Blogs || []).map((record, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>
+                        <img
+                          src={record.imageUrl}
+                          alt="blog-img"
+                          className="me-2 avatar-lg rounded"
+                        />
+                      </td>
+                      <td className="table-user">{record.title}</td>
+                      <td>{record.category}</td>
+                      {/* <td>
                     {record.isActive ? (
                       <>
                         <input
@@ -133,42 +133,42 @@ export default function Page() {
                       </>
                     )}
                   </td> */}
-                  <td>
-                    <Link
-                      href={`/add-blogs?id=${record._id}`}
-                      className="text-reset fs-16 px-1"
-                    >
-                      <IconifyIcon icon="tabler:pencil" />
-                    </Link>
-                    <Link
-                      href="javascript:void(0)"
-                      className="text-reset fs-16 px-1"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        Swal.fire({
-                          title: "Are you sure?",
-                          text: "You won't be able to revert this!",
-                          icon: "warning",
-                          showCancelButton: true,
-                          confirmButtonColor: "#3085d6",
-                          cancelButtonColor: "#d33",
-                          confirmButtonText: "Yes, delete it!",
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            deleteBlog(record._id);
-                            Swal.fire(
-                              "Deleted!",
-                              "Your blog has been deleted.",
-                              "success"
-                            );
-                          }
-                        });
-                      }}
-                    >
-                      <IconifyIcon icon="tabler:trash" />
-                    </Link>
-                  </td>
-                  {/* <td>
+                      <td>
+                        <Link
+                          href={`/add-blogs?id=${record._id}`}
+                          className="text-reset fs-16 px-1"
+                        >
+                          <IconifyIcon icon="tabler:pencil" />
+                        </Link>
+                        <Link
+                          href="javascript:void(0)"
+                          className="text-reset fs-16 px-1"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            Swal.fire({
+                              title: "Are you sure?",
+                              text: "You won't be able to revert this!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes, delete it!",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                deleteBlog(record._id);
+                                Swal.fire(
+                                  "Deleted!",
+                                  "Your blog has been deleted.",
+                                  "success"
+                                );
+                              }
+                            });
+                          }}
+                        >
+                          <IconifyIcon icon="tabler:trash" />
+                        </Link>
+                      </td>
+                      {/* <td>
                     <Link
                       href={`/blogs/${record._id}`}
                       target="_blank"
@@ -177,20 +177,20 @@ export default function Page() {
                       <IconifyIcon icon="tabler:eye" />
                     </Link>
                   </td> */}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        
-      </div>:<div style={{display:"flex",gap:'50px'}} >
-      <Skeleton width={"250px"} highlightColor  />
-      <Skeleton width={"250px"} highlightColor  />
-      <Skeleton width={"250px"} highlightColor  />
-      <Skeleton width={"250px"} highlightColor  />
-      </div>
-      }
-        
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div style={{ display: "flex", gap: "50px" }}>
+            <Skeleton width={"250px"} highlightColor />
+            <Skeleton width={"250px"} highlightColor />
+            <Skeleton width={"250px"} highlightColor />
+            <Skeleton width={"250px"} highlightColor />
+          </div>
+        )}
       </ComponentContainerCard>
     );
   };

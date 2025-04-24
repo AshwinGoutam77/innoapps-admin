@@ -13,7 +13,7 @@ const AppProvidersWrapper = ({
   children
 }) => {
   const handleChangeTitle = () => {
-    if (document.visibilityState == 'hidden') document.title = 'Please come back 🥺';else document.title = DEFAULT_PAGE_TITLE;
+    if (document.visibilityState == 'hidden') document.title = 'Innoapps'; else document.title = 'Innoapps';
   };
   useEffect(() => {
     if (document) {
@@ -31,16 +31,16 @@ const AppProvidersWrapper = ({
     };
   }, []);
   return <SessionProvider>
-      <LayoutProvider>
-        <ChatProvider>
-          {/* <TitleProvider> */}
-          {/* <NotificationProvider> */}
-          {children}
-          <ToastContainer theme="colored" />
-          {/* </NotificationProvider> */}
-          {/* </TitleProvider> */}
-        </ChatProvider>
-      </LayoutProvider>
-    </SessionProvider>;
+    <LayoutProvider>
+      <ChatProvider>
+        {/* <TitleProvider> */}
+        {/* <NotificationProvider> */}
+        {children}
+        <ToastContainer theme="colored" />
+        {/* </NotificationProvider> */}
+        {/* </TitleProvider> */}
+      </ChatProvider>
+    </LayoutProvider>
+  </SessionProvider>;
 };
 export default AppProvidersWrapper;

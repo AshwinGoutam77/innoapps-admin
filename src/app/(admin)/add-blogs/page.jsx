@@ -10,7 +10,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import Select from 'react-select';
 
 
-const generateSlug=(text)=> {
+const generateSlug = (text) => {
   return text
     .toLowerCase()                          // Convert to lowercase
     .replace(/&/g, 'and')                   // Replace &
@@ -61,11 +61,11 @@ export default function AddBlogs() {
       setMetaDescription(data.metaDescription);
     };
     if (isEditMode) fetchBlog();
-    else setLoading(false); 
-    fetchCategories();  
+    else setLoading(false);
+    fetchCategories();
   }, [blogId]);
- 
- 
+
+
 
   const onCategoryCreate = async (name) => {
     const res = await fetch("/api/blogs/categories", {
@@ -91,7 +91,7 @@ export default function AddBlogs() {
     if (event.key === "Enter" && inputValue) {
       onCategoryCreate(inputValue);
       setInputValue("");
-      event.preventDefault(); 
+      event.preventDefault();
     }
   };
 
@@ -118,7 +118,7 @@ export default function AddBlogs() {
   </>;
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const generatedSlug = generateSlug(title);
 
     const payload = {
@@ -129,7 +129,7 @@ export default function AddBlogs() {
       isActive,
       metaTitle,
       metaDescription,
-      slug:generatedSlug,
+      slug: generatedSlug,
     };
 
     const res = await fetch("/api/blogs", {
@@ -156,8 +156,8 @@ export default function AddBlogs() {
     }], ['link', 'image']]
   };
 
-  
- 
+
+
   return (
     <ComponentContainerCard title={isEditMode ? "Edit Blog" : "Add Blog"}>
       <form

@@ -3,27 +3,29 @@ import clientPromise from '../../lib/mongodb';
 import { NextResponse } from 'next/server';
 
 
-export async function GET() {
+export async function GET(req) {
     try {
         const client = await clientPromise;
-        const db = client.db('Innoapps');
+        const db = client.db("Innoapps");
 
-        const blogs = await db.collection('blogs')
+        const blogs = await db.collection("blogs")
             .find({})
             .sort({ createdAt: -1 })
             .toArray();
 
         return NextResponse.json(blogs);
     } catch (error) {
-        console.error('Failed to fetch blogs:', error);
-        return NextResponse.json({ message: 'Failed to fetch blogs' }, { status: 500 });
+        console.error("Failed to fetch blogs:", error);
+        return NextResponse.json(
+            { message: "Failed to fetch blogs", error: error.message },
+            { status: 500 }
+        );
     }
 }
-
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { title, category, description, imageUrl,isActive,metaTitle,metaDescription,slug} = body;
+        const { title, category, description, imageUrl, isActive, metaTitle, metaDescription, slug } = body;
 
         if (!title || !category || !description || !imageUrl) {
             return new Response(JSON.stringify({ message: 'Missing fields' }), { status: 400 });
@@ -55,22 +57,60 @@ export async function POST(req) {
 
 export async function PUT(req) {
     const body = await req.json();
-    const { id, title, category, description, imageUrl } = body;
+    const {
+        id,
+        title,
+        category,
+        description,
+        imageUrl,
+        isActive,
+        metaTitle,
+        metaDescription,
+        slug,
+    } = body;
 
-    if (!id) return new Response(JSON.stringify({ message: 'Missing blog ID' }), { status: 400 });
+    if (!id) {
+        return new Response(JSON.stringify({ message: "Missing blog ID" }), {
+            status: 400,
+        });
+    }
 
     try {
         const client = await clientPromise;
-        const db = client.db('Innoapps');
+        const db = client.db("Innoapps");
 
-        await db.collection('blogs').updateOne(
+        const result = await db.collection("blogs").updateOne(
             { _id: new ObjectId(id) },
-            { $set: { title, category, description, imageUrl } }
+            {
+                $set: {
+                    title,
+                    category,
+                    description,
+                    imageUrl,
+                    isActive,
+                    metaTitle,
+                    metaDescription,
+                    slug,
+                    updatedAt: new Date(),
+                },
+            }
         );
 
-        return new Response(JSON.stringify({ message: 'Blog updated' }), { status: 200 });
+        if (!result.matchedCount) {
+            return new Response(JSON.stringify({ message: "Blog not found" }), {
+                status: 404,
+            });
+        }
+
+        return new Response(JSON.stringify({ message: "Blog updated" }), {
+            status: 200,
+        });
     } catch (error) {
-        return new Response(JSON.stringify({ message: 'Failed to update blog', error }), { status: 500 });
+        console.error("Failed to update blog:", error);
+        return new Response(
+            JSON.stringify({ message: "Failed to update blog", error: error.message }),
+            { status: 500 }
+        );
     }
 }
 

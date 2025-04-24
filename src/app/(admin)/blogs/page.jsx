@@ -74,9 +74,9 @@ export default function Page() {
               <th>Image</th>
               <th>Title</th>
               <th>Category</th>
-              <th>Active</th>
+              {/* <th>Active</th> */}
               <th>Action</th>
-              <th>View</th>
+              {/* <th>View</th> */}
             </tr>
           </thead>
           <tbody>
@@ -92,7 +92,7 @@ export default function Page() {
                   </td>
                   <td className="table-user">{record.title}</td>
                   <td>{record.category}</td>
-                  <td>
+                  {/* <td>
                     {record.isActive ? (
                       <>
                         <input
@@ -132,7 +132,7 @@ export default function Page() {
                         />
                       </>
                     )}
-                  </td>
+                  </td> */}
                   <td>
                     <Link
                       href={`/add-blogs?id=${record._id}`}
@@ -168,7 +168,7 @@ export default function Page() {
                       <IconifyIcon icon="tabler:trash" />
                     </Link>
                   </td>
-                  <td>
+                  {/* <td>
                     <Link
                       href={`/blogs/${record._id}`}
                       target="_blank"
@@ -176,7 +176,7 @@ export default function Page() {
                     >
                       <IconifyIcon icon="tabler:eye" />
                     </Link>
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}

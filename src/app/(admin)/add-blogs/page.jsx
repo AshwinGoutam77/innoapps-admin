@@ -6,7 +6,9 @@ import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { result } from "lodash";
 import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css'
+import 'react-loading-skeleton/dist/skeleton.css';
+import Select from 'react-select';
+
 export default function AddBlogs() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -15,13 +17,19 @@ export default function AddBlogs() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [isActive, setisActive] = useState();
-
-
   const isEditMode = Boolean(blogId);
   // console.log("ppp", isEditMode);
+  const [categories, setCategories] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const [loading, setLoading] = useState(true);
+
+  const fetchCategories = async () => {
+    const res = await fetch("/api/blogs/categories");
+    const data = await res.json();
+    setCategories(data.categories.map((cat) => cat.name)); // assuming { name: 'Tech' }
+  };
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -32,12 +40,51 @@ export default function AddBlogs() {
       setCategory(data.category);
       setDescription(data.description);
       setImageUrl(data.imageUrl);
+      setSelectedCategory(data.category);
       setLoading(false);
       setisActive(data.isActive);
     };
     if (isEditMode) fetchBlog();
     else setLoading(false);
+
+    fetchCategories();
   }, [blogId]);
+
+  const onCategoryCreate = async (name) => {
+    const res = await fetch("/api/blogs/categories", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    });
+
+    if (res.ok) {
+      setCategories((prev) => [...prev, name]);
+      setSelectedCategory(name);
+    } else {
+      const errorData = await res.json();
+      alert(errorData.message || "Failed to create category");
+    }
+  };
+
+  const handleInputChange = (newInputValue) => {
+    setInputValue(newInputValue);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && inputValue) {
+      onCategoryCreate(inputValue);
+      setInputValue("");
+      event.preventDefault(); // prevent default form submit if inside form
+    }
+  };
+
+  const handleChange = (selectedOption) => {
+    setSelectedCategory(selectedOption ? selectedOption.value : null);
+  };
+
+
+
+  const [isActive, setisActive] = useState(false);
 
   if (loading) return <>
     <Skeleton width={"250px"} height={"40px"} highlightColor />
@@ -55,12 +102,22 @@ export default function AddBlogs() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { title, category, description, imageUrl, isActive };
+
+    // Use selectedCategory from the Select component
+    const payload = {
+      title,
+      category: selectedCategory,
+      description,
+      imageUrl,
+      isActive,
+    };
+
     const res = await fetch("/api/blogs", {
       method: isEditMode ? "PUT" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(isEditMode ? { ...payload, id: blogId } : payload),
     });
+
     const result = await res.json();
     if (res.ok) {
       router.push("/blogs");
@@ -107,14 +164,27 @@ export default function AddBlogs() {
         </div>
         <div>
           <label>Category</label>
-          <input
-            type="text"
-            className="form-control"
-            value={category || ""}
-            onChange={(e) => setCategory(e.target.value)}
-            required
+          <Select
+            options={categories.map((cat) => ({
+              value: cat,
+              label: cat,
+            }))}
+            value={
+              selectedCategory
+                ? { value: selectedCategory, label: selectedCategory }
+                : null
+            }
+            onChange={handleChange}
+            inputValue={inputValue}
+            onInputChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            placeholder="Select or create category..."
+            noOptionsMessage={() =>
+              inputValue ? 'Press Enter to create category' : 'No categories found'
+            }
           />
         </div>
+
 
         <div>
           <label>Description</label>
@@ -125,7 +195,7 @@ export default function AddBlogs() {
             onChange={setDescription}
           />
         </div>
-        <div>
+        {/* <div>
           <strong>Save as:</strong>
           <div className="ms-1">
             <input
@@ -148,7 +218,7 @@ export default function AddBlogs() {
             />
             <label htmlFor="draft">&nbsp;&nbsp; Draft</label>
           </div>
-        </div>
+        </div> */}
         <div>
           <button type="submit" className="btn btn-primary rounded-pill">
             {isEditMode ? "Update Blog" : "Save Blog"}

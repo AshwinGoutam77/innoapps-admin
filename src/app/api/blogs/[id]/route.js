@@ -44,7 +44,7 @@ export async function PUT(req, { params }) {
             slug,
         } = await req.json();
 
-        if (!title || !category || !description || !imageUrl) {
+        if (!isActive) {
             return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
         }
 

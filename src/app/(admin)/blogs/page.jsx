@@ -19,7 +19,6 @@ export default function Page() {
     const raw = JSON.stringify({
       isActive: value,
     });
-
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -27,10 +26,7 @@ export default function Page() {
       redirect: "follow",
     };
 
-    const res = await fetch(
-      `http://localhost:3000/api/blogs/${id}`,
-      requestOptions
-    );
+    const res = await fetch(`/api/blogs/${id}`, requestOptions);
     const result = res.json();
     if (res.ok) {
       fetchBlogs();
@@ -74,9 +70,9 @@ export default function Page() {
                   <th>Image</th>
                   <th>Title</th>
                   <th>Category</th>
-                  {/* <th>Active</th> */}
+                  <th>Active</th>
                   <th>Action</th>
-                  {/* <th>View</th> */}
+                  <th>View</th>
                 </tr>
               </thead>
               <tbody>
@@ -92,47 +88,46 @@ export default function Page() {
                       </td>
                       <td className="table-user">{record.title}</td>
                       <td>{record.category}</td>
-                      {/* <td>
-                    {record.isActive ? (
-                      <>
-                        <input
-                          type="checkbox"
-                          id={`switch-${record._id}`}
-                          defaultChecked
-                          data-switch="success"
-                          onClick={() => {
-                              updateBlogStatus(record._id, !record.isActive);
-                              console.log(record.isActive);
-                              
-                          }}
-                        />
-                        <label
-                          htmlFor={`switch-${record._id}`}
-                          data-on-label="Yes"
-                          data-off-label="No"
-                          className="mb-0 d-block"
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <input
-                          type="checkbox" 
-                          id={`switch-${record._id}`}
-                          data-switch="success"
-                          onClick={() => {
-                              updateBlogStatus(record._id, !record.isActive);
-                              console.log(record.isActive);
-                          }}
-                        />
-                        <label
-                          htmlFor={`switch-${record._id}`}
-                          data-on-label="Yes"
-                          data-off-label="No"
-                          className="mb-0 d-block"
-                        />
-                      </>
-                    )}
-                  </td> */}
+                      <td>
+                        {record.isActive ? (
+                          <>
+                            <input
+                              type="checkbox"
+                              id={`switch-${record._id}`}
+                              defaultChecked
+                              data-switch="success"
+                              onClick={() => {
+                                updateBlogStatus(record._id, !record.isActive);
+                                console.log(record.isActive);
+                              }}
+                            />
+                            <label
+                              htmlFor={`switch-${record._id}`}
+                              data-on-label="Yes"
+                              data-off-label="No"
+                              className="mb-0 d-block"
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <input
+                              type="checkbox"
+                              id={`switch-${record._id}`}
+                              data-switch="success"
+                              onClick={() => {
+                                updateBlogStatus(record._id, !record.isActive);
+                                console.log(record.isActive);
+                              }}
+                            />
+                            <label
+                              htmlFor={`switch-${record._id}`}
+                              data-on-label="Yes"
+                              data-off-label="No"
+                              className="mb-0 d-block"
+                            />
+                          </>
+                        )}
+                      </td>
                       <td>
                         <Link
                           href={`/add-blogs?id=${record._id}`}
@@ -168,7 +163,7 @@ export default function Page() {
                           <IconifyIcon icon="tabler:trash" />
                         </Link>
                       </td>
-                      {/* <td>
+                      <td>
                     <Link
                       href={`/blogs/${record._id}`}
                       target="_blank"
@@ -176,7 +171,7 @@ export default function Page() {
                     >
                       <IconifyIcon icon="tabler:eye" />
                     </Link>
-                  </td> */}
+                  </td>
                     </tr>
                   );
                 })}

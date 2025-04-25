@@ -1,14 +1,24 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ComponentContainerCard from "@/components/ComponentContainerCard";
 import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css"; 
+import "react-quill-new/dist/quill.snow.css";
+import { result, set } from "lodash";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 import Select from 'react-select';
 
 
+// const generateSlug = (text) => {
+//   return text
+//     .toLowerCase()                          // Convert to lowercase
+//     .replace(/&/g, 'and')                   // Replace &
+//     .replace(/[^\w\s-]/g, '')               // Remove non-word characters except space and hyphen
+//     .trim()                                 // Trim whitespace
+//     .replace(/\s+/g, '-')                   // Replace spaces with hyphens
+//     .replace(/-+/g, '-');                   // Remove multiple hyphens
+// }
 
 export default function AddBlogs() {
   const searchParams = useSearchParams();
@@ -18,13 +28,55 @@ export default function AddBlogs() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState(""); 
   const isEditMode = Boolean(blogId);
   // console.log("ppp", isEditMode);
   const [categories, setCategories] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [customSlug, setCustomSlug] = useState("");
+  const [loading, setLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [slugs, setSlugs] = useState([]);
+  const [excludedSlugs, setExcludedSlugs] = useState("");
+  const [date, setDate] = useState('');
+  const [readTime, setReadTime] = useState('');
 
-  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchSlugs = async () => {
+      try {
+        const response = await fetch('/api/blogs');  
+        const blogs = await response.json(); 
+        if (response.ok) {
+          const blogSlugs = blogs.map(blog => blog.slug);
+          setSlugs(blogSlugs);
+          console.log("Slugs fetched:", blogSlugs);
+        } 
+      } catch (error) {
+        console.error('Error fetching blog slugs:', error);
+      }
+    };
+
+    fetchSlugs();
+
+  }, []); 
+  const validateSlug = (value) => {
+    return value
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '') // allow only lowercase letters, numbers, and dash
+      .replace(/-+/g, '-');       // remove multiple dashes
+  };
+
+
+  const isSlugUnique = (slug) => {
+    if (!slug.trim()) return false; 
+    if (isEditMode && slug.trim() === excludedSlugs.trim()) return true;
+  
+    return !slugs.includes(slug.trim());
+  };
+  
+
 
   const fetchCategories = async () => {
     const res = await fetch("/api/blogs/categories");
@@ -44,13 +96,17 @@ export default function AddBlogs() {
       setSelectedCategory(data.category);
       setLoading(false);
       setisActive(data.isActive);
+      setMetaTitle(data.metaTitle);
+      setMetaDescription(data.metaDescription);
+      setCustomSlug(data.slug);
+      setExcludedSlugs(data.slug);
+      setDate(data.date);
+      setReadTime(data.readTime);
     };
     if (isEditMode) fetchBlog();
-    else setLoading(false); 
-    fetchCategories();  
-  }, [blogId]);
- 
- 
+    else setLoading(false);
+    fetchCategories();
+  }, [blogId]); 
 
   const onCategoryCreate = async (name) => {
     const res = await fetch("/api/blogs/categories", {
@@ -76,7 +132,7 @@ export default function AddBlogs() {
     if (event.key === "Enter" && inputValue) {
       onCategoryCreate(inputValue);
       setInputValue("");
-      event.preventDefault(); 
+      event.preventDefault();
     }
   };
 
@@ -103,14 +159,21 @@ export default function AddBlogs() {
   </>;
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
+    if (!isSlugUnique(customSlug)) {return}
+    setIsLoading(true); 
 
     const payload = {
       title,
       category: selectedCategory,
       description,
       imageUrl,
-      isActive, 
+      isActive,
+      metaTitle,
+      metaDescription,
+      slug: customSlug,
+      date,
+      readTime,
     };
 
     const res = await fetch("/api/blogs", {
@@ -121,9 +184,11 @@ export default function AddBlogs() {
 
     const result = await res.json();
     if (res.ok) {
+      setIsLoading(false);
       router.push("/blogs");
     } else {
       alert(result.message || "Something went wrong!");
+      setIsLoading(false);
     }
   };
 
@@ -137,7 +202,8 @@ export default function AddBlogs() {
     }], ['link', 'image']]
   };
 
-  
+
+
  
   return (
     <ComponentContainerCard title={isEditMode ? "Edit Blog" : "Add Blog"}>
@@ -145,6 +211,46 @@ export default function AddBlogs() {
         onSubmit={handleSubmit}
         className="space-y-6 d-flex flex-column gap-2"
       >
+        <div>
+          <label>Meta Title</label>
+          <input
+            type="text"
+            className="form-control"
+            value={metaTitle || ""}
+            onChange={(e) => setMetaTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Meta Description</label>
+          <input
+            type="text"
+            className="form-control"
+            value={metaDescription || ""}
+            onChange={(e) => setMetaDescription(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Slug</label>
+          <input
+            type="text"
+            className="form-control"
+            value={customSlug || ""}
+            onChange={(e) => { const cleanSlug = validateSlug(e.target.value);
+              setCustomSlug(cleanSlug);
+              //  isSlugUnique(e.target.value)
+            }}
+            required
+          />
+          
+          <small>
+            {
+              customSlug.trim() === "" ? <p className="text-danger">Slug cannot be empty</p>: isSlugUnique(customSlug) ? <p className="text-success">Slug is available</p> : <p className="text-danger">Slug already exists</p>
+            }
+          </small>
+        </div>
+        <div className="border-0 border-bottom border-dashed" ></div>
         <div>
           <label>Image URL</label>
           <input
@@ -165,7 +271,8 @@ export default function AddBlogs() {
             required
           />
         </div>
-        <div>
+        <div className="row">
+        <div className="col-4">
           <label>Category</label>
           <Select
             options={categories.map((cat) => ({
@@ -187,6 +294,27 @@ export default function AddBlogs() {
             }
           />
         </div>
+        <div className="col-4">
+        <label>Date</label>
+        <input
+            type="date"
+            className="form-control"
+            value={date || ""}
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
+        </div>
+        <div className="col-4">
+        <label>Read Time</label>
+        <input
+            type="number"
+            className="form-control"
+            value={readTime || ""}
+            onChange={(e) => setReadTime(e.target.value)}
+            required
+          />
+        </div>
+        </div>
 
 
         <div>
@@ -198,7 +326,7 @@ export default function AddBlogs() {
             onChange={setDescription}
           />
         </div>
-        {/* <div>
+        <div>
           <strong>Save as:</strong>
           <div className="ms-1">
             <input
@@ -221,10 +349,12 @@ export default function AddBlogs() {
             />
             <label htmlFor="draft">&nbsp;&nbsp; Draft</label>
           </div>
-        </div> */}
+        </div>
         <div>
           <button type="submit" className="btn btn-primary rounded-pill">
-            {isEditMode ? "Update Blog" : "Save Blog"}
+            {
+              isLoading?"Waiting...":isEditMode?"Update Blog":"Add Blog"
+            }
           </button>
         </div>
 

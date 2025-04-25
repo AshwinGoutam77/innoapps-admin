@@ -1,23 +1,50 @@
-import { ObjectId } from 'mongodb'; 
-import { NextResponse } from 'next/server'; 
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'; 
 import clientPromise from '../../../lib/mongodb';
 
+const JWT_SECRET = process.env.JWT_SECRET;
 
-export async function GET() {
-    
+export async function POST(req) {
     try {
+        const body = await req.json();
+        const { email, password } = body;
+
+        if (!email || !password) {
+            return new Response(JSON.stringify({ message: 'Missing email or password' }), { status: 400 });
+        }
+
         const client = await clientPromise;
         const db = client.db('Innoapps');
 
-        const blogs = await db.collection('blogs')
-            .find({})
-            .sort({ createdAt: -1 })
-            .toArray();
+        const user = await db.collection('admins').findOne({ email });
 
-            return NextResponse.json({ message: blogs }, { status: 200 });
+        if (!user) {
+            return new Response(JSON.stringify({ message: 'Invalid email or password' }), { status: 401 });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return new Response(JSON.stringify({ message: 'Invalid email or password' }), { status: 401 });
+        }
+
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        return new Response(JSON.stringify({
+            message: 'Login successful',
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        }), { status: 200 });
+
     } catch (error) {
-        console.error('Failed to fetch blogs:', error);
-        return NextResponse.json({ message: 'Failed to fetch blogs' }, { status: 500 });
+        console.error('Login error:', error);
+        return new Response(JSON.stringify({ message: 'Login failed', error: error.message }), { status: 500 });
     }
 }
- 

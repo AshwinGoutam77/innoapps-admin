@@ -25,7 +25,7 @@ export async function GET(req) {
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { title, category, description, imageUrl, isActive, metaTitle, metaDescription, slug } = body;
+        const { title, category, description, imageUrl, isActive, metaTitle, metaDescription, slug,date,readTime } = body;
 
         if (!title || !category || !description || !imageUrl) {
             return new Response(JSON.stringify({ message: 'Missing fields' }), { status: 400 });
@@ -43,6 +43,8 @@ export async function POST(req) {
             metaTitle,
             metaDescription,
             slug,
+            date,
+            readTime,
             createdAt: new Date()
         });
 
@@ -67,6 +69,8 @@ export async function PUT(req) {
         metaTitle,
         metaDescription,
         slug,
+        date,
+        readTime,
     } = body;
 
     if (!id) {
@@ -91,6 +95,8 @@ export async function PUT(req) {
                     metaTitle,
                     metaDescription,
                     slug,
+                    date,
+                    readTime,
                     updatedAt: new Date(),
                 },
             }

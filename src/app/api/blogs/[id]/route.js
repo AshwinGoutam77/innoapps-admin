@@ -33,19 +33,12 @@ export async function PUT(req, { params }) {
     }
 
     try {
-        const {
-            title,
-            category,
-            description,
-            imageUrl,
-            isActive,
-            metaTitle,
-            metaDescription,
-            slug,
+        const { 
+            isActive, 
         } = await req.json();
 
-        if (!isActive) {
-            return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+        if (isActive=== undefined || isActive === null) {
+            return NextResponse.json({ message: `Missing required fields` }, { status: 400 });
         }
 
         const client = await clientPromise;
@@ -54,15 +47,8 @@ export async function PUT(req, { params }) {
         const blog = await db.collection("blogs").updateOne(
             { _id: new ObjectId(id) },
             {
-                $set: {
-                    title,
-                    category,
-                    description,
-                    imageUrl,
-                    isActive,
-                    metaTitle,
-                    metaDescription,
-                    slug,
+                $set: { 
+                    isActive,  
                     updatedAt: new Date(),
                 },
             }

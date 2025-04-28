@@ -37,8 +37,8 @@ export async function PUT(req, { params }) {
             isActive, 
         } = await req.json();
 
-        if (isActive=== undefined || isActive === null) {
-            return NextResponse.json({ message: `Missing required fields` }, { status: 400 });
+        if (!isActive) {
+            return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
         }
 
         const client = await clientPromise;

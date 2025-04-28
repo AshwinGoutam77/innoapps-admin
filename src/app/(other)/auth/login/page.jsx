@@ -29,8 +29,8 @@ const LoginPage = () => {
 
       if (!res.ok) throw new Error(data.message || 'Login failed');
 
-      localStorage.setItem('token', data.token); // store token (or use cookie if preferred)
-      router.push('/dashboard'); // redirect on successful login
+      localStorage.setItem('token', data.token); 
+      router.push('/dashboard');
 
     } catch (err) {
       setErrorMsg(err.message);

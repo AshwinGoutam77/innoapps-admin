@@ -9,17 +9,6 @@ import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 import Select from 'react-select';
 
-
-// const generateSlug = (text) => {
-//   return text
-//     .toLowerCase()                          // Convert to lowercase
-//     .replace(/&/g, 'and')                   // Replace &
-//     .replace(/[^\w\s-]/g, '')               // Remove non-word characters except space and hyphen
-//     .trim()                                 // Trim whitespace
-//     .replace(/\s+/g, '-')                   // Replace spaces with hyphens
-//     .replace(/-+/g, '-');                   // Remove multiple hyphens
-// }
-
 export default function AddBlogs() {
   const searchParams = useSearchParams();
   const router = useRouter();

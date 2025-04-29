@@ -6,7 +6,7 @@ export const metadata = {
   title: 'Create password'
 };
 const CreatePasswordPage = () => {
-  return <div className="auth-bg d-flex min-vh-100">
+  return <div className="auth-bg d-flex min-vh-100 items-center">
       <Row className="g-0 justify-content-center w-100 m-xxl-5 px-xxl-4 m-3">
         <Col xxl={3} lg={5} md={6}>
           <a href="/" className="auth-brand d-flex justify-content-center mb-2">

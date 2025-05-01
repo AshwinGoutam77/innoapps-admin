@@ -21,24 +21,24 @@ const MenuItemWithChildren = ({
     return activeMenuItems?.includes(item.key) ? 'active' : '';
   }, [activeMenuItems]);
   return <Tag className={`${className} dropdown hover-dropdown`}>
-      <DropdownToggle as={'a'} className={` ${tag === 'div' ? 'dropdown-item' : 'nav-link'} drop-arrow-none`} id="topnav-dashboards" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+    <DropdownToggle as={'a'} className={` ${tag === 'div' ? 'dropdown-item' : 'nav-link'} drop-arrow-none`} id="topnav-dashboards" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
-        {item.icon && <span className="menu-icon"><IconifyIcon icon={item.icon} /></span>}
-        <div className='d-flex w-100 justify-content-between align-items-center'>
-          <span className="menu-text"> {item.label} </span>
-          <span className="menu-arrow ">
-            <IconifyIcon icon="tabler:chevron-right" width={14} height={14} />
-          </span>
-        </div>
-      </DropdownToggle>
-      <div className="dropdown-menu" aria-labelledby="topnav-dashboards">
-        {(item.children || []).map((child, idx) => {
-        return <Fragment key={child.key + idx}>
-              {child.children ? <MenuItemWithChildren item={child} tag={"div"} linkClassName={clsx('nav-link', getActiveClass(child))} activeMenuItems={activeMenuItems} className="dropdown" level={level + 1} subMenuClassName="sub-menu" toggleMenu={toggleMenu} /> : <MenuItem level={level + 1} item={child} linkClassName={clsx('dropdown-item', getActiveClass(child))} />}
-            </Fragment>;
-      })}
+      {item.icon && <span className="menu-icon"><IconifyIcon icon={item.icon} /></span>}
+      <div className='d-flex w-100 justify-content-between align-items-center'>
+        <span className="menu-text"> {item.label} </span>
+        <span className="menu-arrow ">
+          <IconifyIcon icon="tabler:chevron-right" width={14} height={14} />
+        </span>
       </div>
-    </Tag>;
+    </DropdownToggle>
+    <div className="dropdown-menu" aria-labelledby="topnav-dashboards">
+      {(item.children || []).map((child, idx) => {
+        return <Fragment key={child.key + idx}>
+          {child.children ? <MenuItemWithChildren item={child} tag={"div"} linkClassName={clsx('nav-link', getActiveClass(child))} activeMenuItems={activeMenuItems} className="dropdown" level={level + 1} subMenuClassName="sub-menu" toggleMenu={toggleMenu} /> : <MenuItem level={level + 1} item={child} linkClassName={clsx('dropdown-item', getActiveClass(child))} />}
+        </Fragment>;
+      })}
+    </div>
+  </Tag>;
 };
 const MenuItem = ({
   item,
@@ -47,23 +47,32 @@ const MenuItem = ({
   level
 }) => {
   return <li className={className}>
-      <MenuItemLink level={level + 1} item={item} className={linkClassName} />
-    </li>;
+    <MenuItemLink level={level + 1} item={item} className={linkClassName} />
+  </li>;
 };
 const MenuItemLink = ({
   item,
   className
 }) => {
+  const handleLogout = () => {
+    document.cookie = 'login-token=; Max-Age=0; path=/';
+    window.location.href = '/auth/login';
+  };
+
   return <Link href={item.url ?? ''} target={item.target} className={clsx(className, {
     disabled: item.isDisabled
-  })}>
-      {item.icon && <span className="menu-icon">
-          <IconifyIcon icon={item.icon} />
-        </span>}
+  })} onClick={() => {
+    if (item.key === 'logout') {
+      handleLogout();
+    }
+  }}>
+    {item.icon && <span className="menu-icon">
+      <IconifyIcon icon={item.icon} />
+    </span>}
 
-      <span className="menu-text">{item.label}</span>
-      {item.badge && <span className={`badge badge-pill text-end bg-${item.badge.variant}`}>{item.badge.text}</span>}
-    </Link>;
+    <span className="menu-text">{item.label}</span>
+    {item.badge && <span className={`badge badge-pill text-end bg-${item.badge.variant}`}>{item.badge.text}</span>}
+  </Link>;
 };
 const HorizontalNavBar = ({
   menuItems
@@ -93,24 +102,24 @@ const HorizontalNavBar = ({
     horizontalMenu
   } = useLayoutContext();
   return <>
-      <header className="topnav">
-        <nav className="navbar navbar-expand-lg">
-          <nav className="page-container">
-            <Collapse in={horizontalMenu.open} className="collapse navbar-collapse">
-              <div>
-                <ul className="navbar-nav">
-                  {(menuItems || []).map((item, idx) => {
+    <header className="topnav">
+      <nav className="navbar navbar-expand-lg">
+        <nav className="page-container">
+          <Collapse in={horizontalMenu.open} className="collapse navbar-collapse">
+            <div>
+              <ul className="navbar-nav">
+                {(menuItems || []).map((item, idx) => {
                   return <Fragment key={idx}>
-                          {item.children ? <MenuItemWithChildren item={item} toggleMenu={toggleMenu} className="nav-item" level={1} linkClassName={clsx('nav-link ', getActiveClass(item))} subMenuClassName="sub-menu" tag="li" activeMenuItems={activeMenuItems} /> : <MenuItem item={item} level={1} linkClassName={clsx('dropdown-item nav-link', getActiveClass(item))} className="nav-item" />}
-                        </Fragment>;
+                    {item.children ? <MenuItemWithChildren item={item} toggleMenu={toggleMenu} className="nav-item" level={1} linkClassName={clsx('nav-link ', getActiveClass(item))} subMenuClassName="sub-menu" tag="li" activeMenuItems={activeMenuItems} /> : <MenuItem item={item} level={1} linkClassName={clsx('dropdown-item nav-link', getActiveClass(item))} className="nav-item" />}
+                  </Fragment>;
                 })}
-                </ul>
-              </div>
-            </Collapse>
-          </nav>
+              </ul>
+            </div>
+          </Collapse>
         </nav>
-      </header>
+      </nav>
+    </header>
 
-    </>;
+  </>;
 };
 export default HorizontalNavBar;

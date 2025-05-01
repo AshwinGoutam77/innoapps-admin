@@ -6,13 +6,14 @@ import logo from "@/assets/images/logo.svg";
 import { Card, Col, Row } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import IconifyIcon from "@/components/wrappers/IconifyIcon";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false); // Add this state
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,10 +31,12 @@ const LoginPage = () => {
 
       if (!res.ok) throw new Error(data.message || "Login failed");
 
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("login-token", data.token);
+      document.cookie = `login-token=${data.token}; path=/; max-age=604800`; // 7 days
+
       router.push("/dashboard");
     } catch (err) {
-      setErrorMsg(err.message);
+      setErrorMsg(err.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -44,22 +47,14 @@ const LoginPage = () => {
       <Row className="g-0 justify-content-center w-100 m-xxl-5 px-xxl-4 m-3">
         <Col xxl={3} lg={5} md={6}>
           <a href="/" className="auth-brand d-flex justify-content-center mb-2">
-            <Image
-              src={logoDark}
-              alt="dark logo"
-              height={26}
-              className="logo-dark"
-            />
-            <Image
-              src={logo}
-              alt="logo light"
-              height={26}
-              className="logo-light"
-            />
+            <Image src={logoDark} alt="dark logo" height={26} className="logo-dark" />
+            <Image src={logo} alt="logo light" height={26} className="logo-light" />
           </a>
+
           <p className="fw-semibold mb-4 text-center text-muted fs-15">
             Welcome Back!
           </p>
+
           <Card className="overflow-hidden text-center p-xxl-4 p-3 mb-0">
             <h4 className="fw-semibold mb-3 fs-18">Log in to your account</h4>
 
@@ -72,13 +67,13 @@ const LoginPage = () => {
                   required
                   type="email"
                   id="example-email"
-                  name="example-email"
                   className="form-control"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
+
               <div className="mb-3 position-relative">
                 <div className="d-flex align-items-center justify-content-between">
                   <label className="form-label" htmlFor="example-password">
@@ -106,23 +101,15 @@ const LoginPage = () => {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   <IconifyIcon
-                    icon={
-                      showPassword
-                        ? "clarity:eye-line"
-                        : "clarity:eye-hide-solid"
-                    } // Toggle icon
+                    icon={showPassword ? "clarity:eye-line" : "clarity:eye-hide-solid"}
                     width="20"
                     height="20"
                   />
                 </span>
               </div>
+
               {errorMsg && <p className="text-danger small">{errorMsg}</p>}
-              <div className="d-flex justify-content-end mb-3">
-                {/* <div className="form-check">
-                  <input type="checkbox" className="form-check-input" id="checkbox-signin" />
-                  <label className="form-check-label" htmlFor="checkbox-signin">Remember me</label>
-                </div> */}
-              </div>
+
               <div className="d-grid">
                 <button
                   className="btn btn-primary fw-semibold"

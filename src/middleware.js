@@ -1,19 +1,35 @@
- 
 import { NextResponse } from 'next/server';
+
+/** @param {import('next/server').NextRequest} request */
 export function middleware(request) {
-  const response = NextResponse.next();
-// const token =localStorage.getItem('token')
-//   if (!token) {
-//     return NextResponse.redirect(new URL('/auth/login', request.url));
-//   }
-  if (request.nextUrl.pathname === '/') {
+  const token = request.cookies.get('login-token')?.value;
+  const { pathname } = request.nextUrl;
+
+  const protectedPaths = [
+    '/admin',
+    '/dashboard',
+    '/add-blogs',
+    '/blogs',
+    '/estimate-project'
+  ];
+
+  const isProtected = protectedPaths.some(path =>
+    pathname.startsWith(path)
+  );
+
+  if (isProtected && !token) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
   }
-  return response;
+
+  return NextResponse.next();
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: '/'
+  matcher: [
+    '/admin/:path*',
+    '/dashboard/:path*',
+    '/add-blogs/:path*',
+    '/blogs/:path*',
+    '/estimate-project/:path*',
+  ],
 };
-export { default } from 'next-auth/middleware';

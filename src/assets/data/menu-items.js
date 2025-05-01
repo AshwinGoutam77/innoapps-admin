@@ -686,438 +686,439 @@ export const MENU_ITEMS = [{
   }]
 }];
 export const HORIZONTAL_MENU_ITEM = [{
-  key: 'cotact',
-  label: 'Contact Listing',
+  key: 'contact',
+  label: 'Contact Us Leads',
   icon: 'mdi:contact',
-  
+
   url: '/dashboard'
 }, {
   key: 'estimate',
-  label: 'Estimate Project',
-  icon: 'hugeicons:estimate-01', 
+  label: 'Estimate Project Leads',
+  icon: 'hugeicons:estimate-01',
   url: '/estimate-project'
 }, {
   key: 'blogs',
   label: 'Blogs',
   icon: 'tabler:file-description',
   url: '/blogs'
-// }, {
-//   key: 'components',
-//   label: 'Components',
-//   icon: 'tabler:components',
-//   children: [{
-//     key: 'widgets',
-//     label: 'Widgets',
-//     url: '/wallet',
-//     parentKey: 'components'
-//   }, {
-//     key: 'base-ui',
-//     label: 'Base UI',
-//     children: [{
-//       key: 'base-ui-accordions',
-//       label: 'Accordions',
-//       url: '/ui/accordions',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-alerts',
-//       label: 'Alerts',
-//       url: '/ui/alerts',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-avatars',
-//       label: 'Avatars',
-//       url: '/ui/avatars',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-badges',
-//       label: 'Badges',
-//       url: '/ui/badges',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-breadcrumb',
-//       label: 'Breadcrumb',
-//       url: '/ui/breadcrumb',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-buttons',
-//       label: 'Buttons',
-//       url: '/ui/buttons',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-cards',
-//       label: 'Cards',
-//       url: '/ui/cards',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-carousel',
-//       label: 'Carousel',
-//       url: '/ui/carousel',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-collapse',
-//       label: 'Collapse',
-//       url: '/ui/collapse',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-dropdowns',
-//       label: 'Dropdowns',
-//       url: '/ui/dropdowns',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'ul-ratio',
-//       label: 'Ratio',
-//       url: '/ui/ratio',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'ul-grid',
-//       label: 'Grid',
-//       url: '/ui/grid',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'ul-links',
-//       label: 'Links',
-//       url: '/ui/links',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-list-group',
-//       label: 'List Group',
-//       url: '/ui/list-group',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-modals',
-//       label: 'Modals',
-//       url: '/ui/modals',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-notifications',
-//       label: 'Notifications',
-//       url: '/ui/notifications',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-offcanvas',
-//       label: 'Offcanvas',
-//       url: '/ui/offcanvas',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-placeholders',
-//       label: 'Placeholders',
-//       url: '/ui/placeholders',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-pagination',
-//       label: 'Pagination',
-//       url: '/ui/pagination',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-popovers',
-//       label: 'Popovers',
-//       url: '/ui/popovers',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-progress',
-//       label: 'Progress',
-//       url: '/ui/progress',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-spinners',
-//       label: 'Spinners',
-//       url: '/ui/spinners',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-tabs',
-//       label: 'Tabs',
-//       url: '/ui/tabs',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-tooltips',
-//       label: 'Tooltips',
-//       url: '/ui/tooltips',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-typography',
-//       label: 'Typography',
-//       url: '/ui/typography',
-//       parentKey: 'base-ui'
-//     }, {
-//       key: 'base-ui-utilities',
-//       label: 'Utilities',
-//       url: '/ui/utilities',
-//       parentKey: 'base-ui'
-//     }]
-//   }, {
-//     key: 'extended-ui',
-//     label: 'Extended UI',
-//     children: [{
-//       key: 'dragula',
-//       label: 'Dragula',
-//       url: '/extended/dragula',
-//       parentKey: 'extended-ui'
-//     }, {
-//       key: 'sweet-alert',
-//       label: 'Sweet Alert',
-//       url: '/extended/sweet-alert',
-//       parentKey: 'extended-ui'
-//     }, {
-//       key: 'ratings',
-//       label: 'Ratings',
-//       url: '/extended/ratings',
-//       parentKey: 'extended-ui'
-//     }, {
-//       key: 'scrollbar',
-//       label: 'Scrollbar',
-//       url: '/extended/scrollbar',
-//       parentKey: 'extended-ui'
-//     }]
-//   }, {
-//     key: 'forms',
-//     label: 'Forms',
-//     children: [{
-//       key: 'basic',
-//       label: 'Basic Elements',
-//       url: '/forms/basic',
-//       parentKey: 'forms'
-//     }, {
-//       key: 'inputmask',
-//       label: 'Inputmask',
-//       url: '/forms/inputmask',
-//       parentKey: 'forms'
-//     }, {
-//       key: 'picker',
-//       label: 'Picker',
-//       url: '/forms/picker',
-//       parentKey: 'forms'
-//     }, {
-//       key: 'select',
-//       label: 'Select',
-//       url: '/forms/select',
-//       parentKey: 'forms'
-//     }, {
-//       key: 'slider',
-//       label: 'Range Slider',
-//       url: '/forms/slider',
-//       parentKey: 'forms'
-//     }, {
-//       key: 'validation',
-//       label: 'Validation',
-//       url: '/forms/validation',
-//       parentKey: 'forms'
-//     }, {
-//       key: 'wizard',
-//       label: 'Wizard',
-//       url: '/forms/wizard',
-//       parentKey: 'forms'
-//     }, {
-//       key: 'file-uploads',
-//       label: 'File Uploads',
-//       url: '/forms/file-uploads',
-//       parentKey: 'forms'
-//     }, {
-//       key: 'editors',
-//       label: 'Editors',
-//       url: '/forms/editors',
-//       parentKey: 'forms'
-//     }, {
-//       key: 'layouts',
-//       label: 'Layouts',
-//       url: '/forms/layouts',
-//       parentKey: 'forms'
-//     }]
-//   }, {
-//     key: 'charts',
-//     label: 'charts',
-//     children: [{
-//       key: 'area',
-//       label: 'area',
-//       url: '/charts/area',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'bar',
-//       label: 'Bar',
-//       url: '/charts/bar',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'bubble',
-//       label: 'Bubble',
-//       url: '/charts/bubble',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'candlestick',
-//       label: 'Candlestick',
-//       url: '/charts/candlestick',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'column',
-//       label: 'Column',
-//       url: '/charts/column',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'heatmap',
-//       label: 'Heatmap',
-//       url: '/charts/heatmap',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'line',
-//       label: 'Line',
-//       url: '/charts/line',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'mixed',
-//       label: 'Mixed',
-//       url: '/charts/mixed',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'timeline-chart',
-//       label: 'Timeline',
-//       url: '/charts/timeline',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'boxplot',
-//       label: 'Boxplot',
-//       url: '/charts/boxplot',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'treemap',
-//       label: 'Treemap',
-//       url: '/charts/treemap',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'pie',
-//       label: 'Pie',
-//       url: '/charts/pie',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'radar',
-//       label: 'Radar',
-//       url: '/charts/radar',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'radialBar',
-//       label: 'RadialBar',
-//       url: '/charts/radialBar',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'scatter',
-//       label: 'Scatter',
-//       url: '/charts/scatter',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'polar',
-//       label: 'Polar Area',
-//       url: '/charts/polar',
-//       parentKey: 'charts'
-//     }, {
-//       key: 'sparklines',
-//       label: 'Sparklines',
-//       url: '/charts/sparklines',
-//       parentKey: 'charts'
-//     }]
-//   }, {
-//     key: 'tables',
-//     label: 'Tables',
-//     children: [{
-//       key: 'basics-table',
-//       label: 'Basic Tables',
-//       url: '/tables/basics-table',
-//       parentKey: 'tables'
-//     }, {
-//       key: 'gridJs',
-//       label: 'GridJs Tables',
-//       url: '/tables/gridJs',
-//       parentKey: 'tables'
-//     }, {
-//       key: 'datatable-tables',
-//       label: 'Datatable Tables',
-//       url: '/tables/datatable-tables',
-//       parentKey: 'tables'
-//     }]
-//   }, {
-//     key: 'icons',
-//     label: 'Icons',
-//     children: [{
-//       key: 'tabler',
-//       label: 'Tabler',
-//       url: '/icons/tabler',
-//       parentKey: 'icons'
-//     }, {
-//       key: 'solar',
-//       label: 'Solar',
-//       url: '/icons/solar',
-//       parentKey: 'icons'
-//     }]
-//   }, {
-//     key: 'maps',
-//     label: 'Maps',
-//     children: [{
-//       key: 'google',
-//       label: 'Google Maps',
-//       url: '/maps/google',
-//       parentKey: 'maps'
-//     }, {
-//       key: 'vector',
-//       label: 'Vector Maps',
-//       url: '/maps/vector',
-//       parentKey: 'maps'
-//     }, {
-//       key: 'leaflet',
-//       label: 'Leaflet Maps',
-//       url: '/maps/leaflet',
-//       parentKey: 'maps'
-//     }]
-//   }]
-// }, {
-//   key: 'layouts',
-//   label: 'layouts',
-//   icon: 'tabler:layout',
-//   children: [{
-//     key: 'horizontal',
-//     label: 'Horizontal',
-//     url: '/horizontal',
-//     parentKey: 'layouts'
-//   }, {
-//     key: 'detached',
-//     label: 'Detached',
-//     url: '/detached',
-//     parentKey: 'layouts'
-//   }, {
-//     key: 'full-view',
-//     label: 'Full View',
-//     url: '/full-view',
-//     parentKey: 'layouts'
-//   }, {
-//     key: 'fullscreen-view',
-//     label: 'FullScreen View',
-//     url: '/fullscreen-view',
-//     parentKey: 'layouts'
-//   }, {
-//     key: 'hover-menu',
-//     label: 'Hover Menu',
-//     url: '/hover-menu',
-//     parentKey: 'layouts'
-//   }, {
-//     key: 'compact',
-//     label: 'Compact',
-//     url: '/compact',
-//     parentKey: 'layouts'
-//   }, {
-//     key: 'icon-view',
-//     label: 'Icon View',
-//     url: '/icon-view',
-//     parentKey: 'layouts'
-//   }, {
-//     key: 'dark-mode',
-//     label: 'darkmode',
-//     url: '/dark-mode',
-//     parentKey: 'layouts',
-//     badge: {
-//       text: 'Hot',
-//       variant: 'badge badge-soft-danger '
-//     }
-//   }]
+  // }, {
+  //   key: 'components',
+  //   label: 'Components',
+  //   icon: 'tabler:components',
+  //   children: [{
+  //     key: 'widgets',
+  //     label: 'Widgets',
+  //     url: '/wallet',
+  //     parentKey: 'components'
+  //   }, {
+  //     key: 'base-ui',
+  //     label: 'Base UI',
+  //     children: [{
+  //       key: 'base-ui-accordions',
+  //       label: 'Accordions',
+  //       url: '/ui/accordions',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-alerts',
+  //       label: 'Alerts',
+  //       url: '/ui/alerts',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-avatars',
+  //       label: 'Avatars',
+  //       url: '/ui/avatars',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-badges',
+  //       label: 'Badges',
+  //       url: '/ui/badges',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-breadcrumb',
+  //       label: 'Breadcrumb',
+  //       url: '/ui/breadcrumb',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-buttons',
+  //       label: 'Buttons',
+  //       url: '/ui/buttons',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-cards',
+  //       label: 'Cards',
+  //       url: '/ui/cards',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-carousel',
+  //       label: 'Carousel',
+  //       url: '/ui/carousel',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-collapse',
+  //       label: 'Collapse',
+  //       url: '/ui/collapse',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-dropdowns',
+  //       label: 'Dropdowns',
+  //       url: '/ui/dropdowns',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'ul-ratio',
+  //       label: 'Ratio',
+  //       url: '/ui/ratio',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'ul-grid',
+  //       label: 'Grid',
+  //       url: '/ui/grid',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'ul-links',
+  //       label: 'Links',
+  //       url: '/ui/links',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-list-group',
+  //       label: 'List Group',
+  //       url: '/ui/list-group',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-modals',
+  //       label: 'Modals',
+  //       url: '/ui/modals',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-notifications',
+  //       label: 'Notifications',
+  //       url: '/ui/notifications',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-offcanvas',
+  //       label: 'Offcanvas',
+  //       url: '/ui/offcanvas',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-placeholders',
+  //       label: 'Placeholders',
+  //       url: '/ui/placeholders',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-pagination',
+  //       label: 'Pagination',
+  //       url: '/ui/pagination',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-popovers',
+  //       label: 'Popovers',
+  //       url: '/ui/popovers',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-progress',
+  //       label: 'Progress',
+  //       url: '/ui/progress',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-spinners',
+  //       label: 'Spinners',
+  //       url: '/ui/spinners',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-tabs',
+  //       label: 'Tabs',
+  //       url: '/ui/tabs',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-tooltips',
+  //       label: 'Tooltips',
+  //       url: '/ui/tooltips',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-typography',
+  //       label: 'Typography',
+  //       url: '/ui/typography',
+  //       parentKey: 'base-ui'
+  //     }, {
+  //       key: 'base-ui-utilities',
+  //       label: 'Utilities',
+  //       url: '/ui/utilities',
+  //       parentKey: 'base-ui'
+  //     }]
+  //   }, {
+  //     key: 'extended-ui',
+  //     label: 'Extended UI',
+  //     children: [{
+  //       key: 'dragula',
+  //       label: 'Dragula',
+  //       url: '/extended/dragula',
+  //       parentKey: 'extended-ui'
+  //     }, {
+  //       key: 'sweet-alert',
+  //       label: 'Sweet Alert',
+  //       url: '/extended/sweet-alert',
+  //       parentKey: 'extended-ui'
+  //     }, {
+  //       key: 'ratings',
+  //       label: 'Ratings',
+  //       url: '/extended/ratings',
+  //       parentKey: 'extended-ui'
+  //     }, {
+  //       key: 'scrollbar',
+  //       label: 'Scrollbar',
+  //       url: '/extended/scrollbar',
+  //       parentKey: 'extended-ui'
+  //     }]
+  //   }, {
+  //     key: 'forms',
+  //     label: 'Forms',
+  //     children: [{
+  //       key: 'basic',
+  //       label: 'Basic Elements',
+  //       url: '/forms/basic',
+  //       parentKey: 'forms'
+  //     }, {
+  //       key: 'inputmask',
+  //       label: 'Inputmask',
+  //       url: '/forms/inputmask',
+  //       parentKey: 'forms'
+  //     }, {
+  //       key: 'picker',
+  //       label: 'Picker',
+  //       url: '/forms/picker',
+  //       parentKey: 'forms'
+  //     }, {
+  //       key: 'select',
+  //       label: 'Select',
+  //       url: '/forms/select',
+  //       parentKey: 'forms'
+  //     }, {
+  //       key: 'slider',
+  //       label: 'Range Slider',
+  //       url: '/forms/slider',
+  //       parentKey: 'forms'
+  //     }, {
+  //       key: 'validation',
+  //       label: 'Validation',
+  //       url: '/forms/validation',
+  //       parentKey: 'forms'
+  //     }, {
+  //       key: 'wizard',
+  //       label: 'Wizard',
+  //       url: '/forms/wizard',
+  //       parentKey: 'forms'
+  //     }, {
+  //       key: 'file-uploads',
+  //       label: 'File Uploads',
+  //       url: '/forms/file-uploads',
+  //       parentKey: 'forms'
+  //     }, {
+  //       key: 'editors',
+  //       label: 'Editors',
+  //       url: '/forms/editors',
+  //       parentKey: 'forms'
+  //     }, {
+  //       key: 'layouts',
+  //       label: 'Layouts',
+  //       url: '/forms/layouts',
+  //       parentKey: 'forms'
+  //     }]
+  //   }, {
+  //     key: 'charts',
+  //     label: 'charts',
+  //     children: [{
+  //       key: 'area',
+  //       label: 'area',
+  //       url: '/charts/area',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'bar',
+  //       label: 'Bar',
+  //       url: '/charts/bar',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'bubble',
+  //       label: 'Bubble',
+  //       url: '/charts/bubble',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'candlestick',
+  //       label: 'Candlestick',
+  //       url: '/charts/candlestick',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'column',
+  //       label: 'Column',
+  //       url: '/charts/column',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'heatmap',
+  //       label: 'Heatmap',
+  //       url: '/charts/heatmap',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'line',
+  //       label: 'Line',
+  //       url: '/charts/line',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'mixed',
+  //       label: 'Mixed',
+  //       url: '/charts/mixed',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'timeline-chart',
+  //       label: 'Timeline',
+  //       url: '/charts/timeline',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'boxplot',
+  //       label: 'Boxplot',
+  //       url: '/charts/boxplot',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'treemap',
+  //       label: 'Treemap',
+  //       url: '/charts/treemap',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'pie',
+  //       label: 'Pie',
+  //       url: '/charts/pie',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'radar',
+  //       label: 'Radar',
+  //       url: '/charts/radar',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'radialBar',
+  //       label: 'RadialBar',
+  //       url: '/charts/radialBar',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'scatter',
+  //       label: 'Scatter',
+  //       url: '/charts/scatter',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'polar',
+  //       label: 'Polar Area',
+  //       url: '/charts/polar',
+  //       parentKey: 'charts'
+  //     }, {
+  //       key: 'sparklines',
+  //       label: 'Sparklines',
+  //       url: '/charts/sparklines',
+  //       parentKey: 'charts'
+  //     }]
+  //   }, {
+  //     key: 'tables',
+  //     label: 'Tables',
+  //     children: [{
+  //       key: 'basics-table',
+  //       label: 'Basic Tables',
+  //       url: '/tables/basics-table',
+  //       parentKey: 'tables'
+  //     }, {
+  //       key: 'gridJs',
+  //       label: 'GridJs Tables',
+  //       url: '/tables/gridJs',
+  //       parentKey: 'tables'
+  //     }, {
+  //       key: 'datatable-tables',
+  //       label: 'Datatable Tables',
+  //       url: '/tables/datatable-tables',
+  //       parentKey: 'tables'
+  //     }]
+  //   }, {
+  //     key: 'icons',
+  //     label: 'Icons',
+  //     children: [{
+  //       key: 'tabler',
+  //       label: 'Tabler',
+  //       url: '/icons/tabler',
+  //       parentKey: 'icons'
+  //     }, {
+  //       key: 'solar',
+  //       label: 'Solar',
+  //       url: '/icons/solar',
+  //       parentKey: 'icons'
+  //     }]
+  //   }, {
+  //     key: 'maps',
+  //     label: 'Maps',
+  //     children: [{
+  //       key: 'google',
+  //       label: 'Google Maps',
+  //       url: '/maps/google',
+  //       parentKey: 'maps'
+  //     }, {
+  //       key: 'vector',
+  //       label: 'Vector Maps',
+  //       url: '/maps/vector',
+  //       parentKey: 'maps'
+  //     }, {
+  //       key: 'leaflet',
+  //       label: 'Leaflet Maps',
+  //       url: '/maps/leaflet',
+  //       parentKey: 'maps'
+  //     }]
+  //   }]
+  // }, {
+  //   key: 'layouts',
+  //   label: 'layouts',
+  //   icon: 'tabler:layout',
+  //   children: [{
+  //     key: 'horizontal',
+  //     label: 'Horizontal',
+  //     url: '/horizontal',
+  //     parentKey: 'layouts'
+  //   }, {
+  //     key: 'detached',
+  //     label: 'Detached',
+  //     url: '/detached',
+  //     parentKey: 'layouts'
+  //   }, {
+  //     key: 'full-view',
+  //     label: 'Full View',
+  //     url: '/full-view',
+  //     parentKey: 'layouts'
+  //   }, {
+  //     key: 'fullscreen-view',
+  //     label: 'FullScreen View',
+  //     url: '/fullscreen-view',
+  //     parentKey: 'layouts'
+  //   }, {
+  //     key: 'hover-menu',
+  //     label: 'Hover Menu',
+  //     url: '/hover-menu',
+  //     parentKey: 'layouts'
+  //   }, {
+  //     key: 'compact',
+  //     label: 'Compact',
+  //     url: '/compact',
+  //     parentKey: 'layouts'
+  //   }, {
+  //     key: 'icon-view',
+  //     label: 'Icon View',
+  //     url: '/icon-view',
+  //     parentKey: 'layouts'
+  //   }, {
+  //     key: 'dark-mode',
+  //     label: 'darkmode',
+  //     url: '/dark-mode',
+  //     parentKey: 'layouts',
+  //     badge: {
+  //       text: 'Hot',
+  //       variant: 'badge badge-soft-danger '
+  //     }
+  //   }]
 },
 {
   key: 'logout',
   label: 'Log Out',
   icon: 'material-symbols:logout',
-  className:"llll"
+  className: "llll",
+  url: '/'
 },
 ];

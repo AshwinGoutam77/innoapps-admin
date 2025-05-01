@@ -286,7 +286,7 @@ export default function AddBlogs() {
             value={shortDescription} 
             onChange={(e) => {
               const input = e.target.value;
-              if (input?.length <= 160) {
+              if (input?.length <= 200) {
                 setShortDescription(input);
               }
             }}

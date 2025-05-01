@@ -148,7 +148,7 @@ export default function AddBlogs() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isSlugUnique(customSlug) || shortDescription.trim().length < 30) {
+    if (!isSlugUnique(customSlug) || shortDescription.trim()?.length < 30) {
       return;
     }
     setIsLoading(true);
@@ -286,7 +286,7 @@ export default function AddBlogs() {
             value={shortDescription} 
             onChange={(e) => {
               const input = e.target.value;
-              if (input.length <= 160) {
+              if (input?.length <= 160) {
                 setShortDescription(input);
               }
             }}
@@ -294,12 +294,12 @@ export default function AddBlogs() {
           />
           <small
             className={
-              shortDescription.length < 80 ? "text-danger" : "text-muted"
+              shortDescription?.length < 80 ? "text-danger" : "text-muted"
             }
           >
-            {shortDescription.length < 80
+            {shortDescription?.length < 80
               ? "Minimum 80 characters required."
-              : `${160 - shortDescription.length} characters left`}
+              : `${160 - shortDescription?.length} characters left`}
           </small>
         </div>
         <div className="row">

@@ -1,13 +1,12 @@
+'use client'
 import ComponentContainerCard from '@/components/ComponentContainerCard';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Col, ProgressBar, Row, Table } from 'react-bootstrap';
 import { expandableRecords, nestedRecords, records } from '../data';
-export const metadata = {
-  title: 'Basic Tables'
-};
+
 export const BasicTable = () => {
   return <ComponentContainerCard title='Estimate Project'  >
     <div className="table-responsive-sm">
@@ -90,6 +89,17 @@ const InverseTable = () => {
   </ComponentContainerCard>;
 };
 export const StripedRowTable = () => {
+  const [Contacts, setContacts] = useState("");
+  const fetchContacts = async () => {
+    const res = await fetch("/api/contacts");
+    const data = await res.json();
+    console.log(data);
+    setContacts(data);
+  };
+  useEffect(() => {
+    fetchContacts()
+  }, [])
+
   return <ComponentContainerCard title='Contact Listing' exportData>
     <div className="table-responsive-sm">
       <table className="table table-striped mb-0">
@@ -108,23 +118,23 @@ export const StripedRowTable = () => {
           </tr>
         </thead>
         <tbody>
-          {(records || []).map((record, idx) => {
+          {(Contacts || []).map((record, idx) => {
             return <tr key={idx}>
               <td className="table-user">
-                <td>{record.accountNo}</td>
+                <td>{record.first_name + " " + record?.last_name}</td>
               </td>
-              <td>{record.accountNo}</td>
-              <td>{record.accountNo}</td>
-              <td>{record.accountNo}</td>
-              <td>{record.accountNo}</td>
-              <td>{record.accountNo}</td>
-              <td>{record.accountNo}</td>
-              <td>{record.accountNo}</td>
-              <td>{record.dob}</td>
+              <td>{record.email ? record.email : "--"}</td>
+              <td>{record.mobile ? record.mobile : "--"}</td>
+              <td>{record.interested ? record.interested : "--"}</td>
+              <td>{record.idea ? record.idea.length > 10 ? record.idea.slice(0, 10) + '...' : record.idea : "--"}</td>
+              <td>{record.location?.country ? record.location?.country : "--"}</td>
+              <td>{record.location?.region ? record.location?.region : "--"}</td>
+              <td>{record.location?.city ? record.location?.city : "--"}</td>
+              <td>{new URL(record.page).pathname.replace('/', '/')}</td>
               <td>
-                {/* <Link href="" className="text-reset fs-16 px-1">
-                      <IconifyIcon icon="tabler:pencil" />
-                    </Link> */}
+                <Link href="" className="text-reset fs-16 px-1">
+                  <IconifyIcon icon="tabler:download" />
+                </Link>
                 <Link href="" className="text-reset fs-16 px-1">
                   <IconifyIcon icon="tabler:trash" />
                 </Link>

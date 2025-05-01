@@ -5,6 +5,7 @@ import logoDark from "@/assets/images/logo-dark.svg";
 import logo from "@/assets/images/logo.svg";
 import { Card, Col, Row } from "react-bootstrap";
 import { useRouter } from "next/navigation";
+import IconifyIcon from "@/components/wrappers/IconifyIcon";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -12,6 +13,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Add this state
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -96,19 +98,34 @@ const RegisterPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="mb-3">
+              <div className="mb-3 position-relative">
                 <label className="form-label" htmlFor="example-password">
                   Password
                 </label>
                 <input
                   required
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="example-password"
                   className="form-control"
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <span
+                  className="position-absolute end-0 translate-middle-y me-1"
+                  style={{ top: "48px", cursor: "pointer" }}
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <IconifyIcon
+                    icon={
+                      showPassword
+                        ? "clarity:eye-line"
+                        : "clarity:eye-hide-solid"
+                    } // Toggle icon
+                    width="20"
+                    height="20"
+                  />
+                </span>
               </div>
 
               {errorMsg && <p className="text-danger small">{errorMsg}</p>}

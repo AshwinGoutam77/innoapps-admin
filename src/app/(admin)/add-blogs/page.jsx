@@ -6,9 +6,9 @@ import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { result, set } from "lodash";
 import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css';
-import Select from 'react-select';
-
+import "react-loading-skeleton/dist/skeleton.css";
+import Select from "react-select";
+import "./page.css";
 export default function AddBlogs() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -18,54 +18,51 @@ export default function AddBlogs() {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
-  const [metaDescription, setMetaDescription] = useState(""); 
+  const [metaDescription, setMetaDescription] = useState("");
   const isEditMode = Boolean(blogId);
   // console.log("ppp", isEditMode);
   const [categories, setCategories] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [customSlug, setCustomSlug] = useState("");
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [slugs, setSlugs] = useState([]);
   const [excludedSlugs, setExcludedSlugs] = useState("");
-  const [date, setDate] = useState('');
-  const [readTime, setReadTime] = useState('');
+  const [date, setDate] = useState("");
+  const [readTime, setReadTime] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
 
   useEffect(() => {
     const fetchSlugs = async () => {
       try {
-        const response = await fetch('/api/blogs');  
-        const blogs = await response.json(); 
+        const response = await fetch("/api/blogs");
+        const blogs = await response.json();
         if (response.ok) {
-          const blogSlugs = blogs.map(blog => blog.slug);
+          const blogSlugs = blogs.map((blog) => blog.slug);
           setSlugs(blogSlugs);
           console.log("Slugs fetched:", blogSlugs);
-        } 
+        }
       } catch (error) {
-        console.error('Error fetching blog slugs:', error);
+        console.error("Error fetching blog slugs:", error);
       }
     };
 
     fetchSlugs();
-
-  }, []); 
+  }, []);
   const validateSlug = (value) => {
     return value
       .toLowerCase()
-      .replace(/[^a-z0-9-]/g, '') // allow only lowercase letters, numbers, and dash
-      .replace(/-+/g, '-');       // remove multiple dashes
+      .replace(/[^a-z0-9-]/g, "") // allow only lowercase letters, numbers, and dash
+      .replace(/-+/g, "-"); // remove multiple dashes
   };
-
 
   const isSlugUnique = (slug) => {
-    if (!slug.trim()) return false; 
+    if (!slug.trim()) return false;
     if (isEditMode && slug.trim() === excludedSlugs.trim()) return true;
-  
+
     return !slugs.includes(slug.trim());
   };
-  
-
 
   const fetchCategories = async () => {
     const res = await fetch("/api/blogs/categories");
@@ -91,11 +88,12 @@ export default function AddBlogs() {
       setExcludedSlugs(data.slug);
       setDate(data.date);
       setReadTime(data.readTime);
+      setShortDescription(data.shortDescription);
     };
     if (isEditMode) fetchBlog();
     else setLoading(false);
     fetchCategories();
-  }, [blogId]); 
+  }, [blogId]);
 
   const onCategoryCreate = async (name) => {
     const res = await fetch("/api/blogs/categories", {
@@ -129,28 +127,31 @@ export default function AddBlogs() {
     setSelectedCategory(selectedOption ? selectedOption.value : null);
   };
 
-
-
   const [isActive, setisActive] = useState(false);
 
-  if (loading) return <>
-    <Skeleton width={"250px"} height={"40px"} highlightColor />
-    <div style={{ display: "flex", gap: "30px", flexDirection: "column" }}>
-      <Skeleton width={"100%"} height={"20px"} highlightColor />
-      <Skeleton width={"100%"} height={"20px"} highlightColor />
-      <Skeleton width={"100%"} height={"20px"} highlightColor />
-      <Skeleton width={"100%"} height={"20px"} highlightColor />
-      <Skeleton width={"100%"} height={"20px"} highlightColor />
-      <Skeleton width={"100%"} height={"20px"} highlightColor />
-      <Skeleton width={"100%"} height={"20px"} highlightColor />
-      <Skeleton width={"100px"} height={"20px"} highlightColor />
-    </div>
-  </>;
+  if (loading)
+    return (
+      <>
+        <Skeleton width={"250px"} height={"40px"} highlightColor />
+        <div style={{ display: "flex", gap: "30px", flexDirection: "column" }}>
+          <Skeleton width={"100%"} height={"20px"} highlightColor />
+          <Skeleton width={"100%"} height={"20px"} highlightColor />
+          <Skeleton width={"100%"} height={"20px"} highlightColor />
+          <Skeleton width={"100%"} height={"20px"} highlightColor />
+          <Skeleton width={"100%"} height={"20px"} highlightColor />
+          <Skeleton width={"100%"} height={"20px"} highlightColor />
+          <Skeleton width={"100%"} height={"20px"} highlightColor />
+          <Skeleton width={"100px"} height={"20px"} highlightColor />
+        </div>
+      </>
+    );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isSlugUnique(customSlug)) {return}
-    setIsLoading(true); 
+    if (!isSlugUnique(customSlug) || shortDescription.trim().length < 30) {
+      return;
+    }
+    setIsLoading(true);
 
     const payload = {
       title,
@@ -163,6 +164,7 @@ export default function AddBlogs() {
       slug: customSlug,
       date,
       readTime,
+      shortDescription,
     };
 
     const res = await fetch("/api/blogs", {
@@ -182,18 +184,29 @@ export default function AddBlogs() {
   };
 
   const modules = {
-    toolbar: [['bold', 'italic', 'underline'], [{
-      header: [false, 1, 2, 3, 4, 5, 6]
-    }, 'blockquote'], [{
-      list: 'bullet'
-    }], ['direction', {
-      align: []
-    }], ['link', 'image']]
+    toolbar: [
+      ["bold", "italic", "underline"],
+      [
+        {
+          header: [false, 1, 2, 3, 4, 5, 6],
+        },
+        "blockquote",
+      ],
+      [
+        {
+          list: "bullet",
+        },
+      ],
+      [
+        "direction",
+        {
+          align: [],
+        },
+      ],
+      ["link", "image"],
+    ],
   };
 
-
-
- 
   return (
     <ComponentContainerCard title={isEditMode ? "Edit Blog" : "Add Blog"}>
       <form
@@ -226,20 +239,25 @@ export default function AddBlogs() {
             type="text"
             className="form-control"
             value={customSlug || ""}
-            onChange={(e) => { const cleanSlug = validateSlug(e.target.value);
+            onChange={(e) => {
+              const cleanSlug = validateSlug(e.target.value);
               setCustomSlug(cleanSlug);
               //  isSlugUnique(e.target.value)
             }}
             required
           />
-          
+
           <small>
-            {
-              customSlug.trim() === "" ? <p className="text-danger">Slug cannot be empty</p>: isSlugUnique(customSlug) ? <p className="text-success">Slug is available</p> : <p className="text-danger">Slug already exists</p>
-            }
+            {customSlug.trim() === "" ? (
+              <p className="text-danger">Slug cannot be empty</p>
+            ) : isSlugUnique(customSlug) ? (
+              <p className="text-success">Slug is available</p>
+            ) : (
+              <p className="text-danger">Slug already exists</p>
+            )}
           </small>
         </div>
-        <div className="border-0 border-bottom border-dashed" ></div>
+        <div className="border-0 border-bottom border-dashed"></div>
         <div>
           <label>Image URL</label>
           <input
@@ -260,51 +278,76 @@ export default function AddBlogs() {
             required
           />
         </div>
+        <div>
+          <label>Short Description</label>
+          <input
+            type="text"
+            className="form-control"
+            value={shortDescription} 
+            onChange={(e) => {
+              const input = e.target.value;
+              if (input.length <= 160) {
+                setShortDescription(input);
+              }
+            }}
+            required
+          />
+          <small
+            className={
+              shortDescription.length < 80 ? "text-danger" : "text-muted"
+            }
+          >
+            {shortDescription.length < 80
+              ? "Minimum 80 characters required."
+              : `${160 - shortDescription.length} characters left`}
+          </small>
+        </div>
         <div className="row">
-        <div className="col-4">
-          <label>Category</label>
-          <Select
-            options={categories.map((cat) => ({
-              value: cat,
-              label: cat,
-            }))}
-            value={
-              selectedCategory
-                ? { value: selectedCategory, label: selectedCategory }
-                : null
-            }
-            onChange={handleChange}
-            inputValue={inputValue}
-            onInputChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            placeholder="Select or create category..."
-            noOptionsMessage={() =>
-              inputValue ? 'Press Enter to create category' : 'No categories found'
-            }
-          />
+          <div className="col-4">
+            <label>Category</label>
+            <Select
+              options={categories.map((cat) => ({
+                value: cat,
+                label: cat,
+              }))}
+              value={
+                selectedCategory
+                  ? { value: selectedCategory, label: selectedCategory }
+                  : null
+              }
+              onChange={handleChange}
+              inputValue={inputValue}
+              onInputChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Select or create category..."
+              noOptionsMessage={() =>
+                inputValue
+                  ? "Press Enter to create category"
+                  : "No categories found"
+              }
+            />
+          </div>
+          <div className="col-4">
+            <label>Date</label>
+            <input
+              type="date"
+              className="form-control"
+              value={date || ""}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </div>
+          <div className="col-4">
+            <label>Read Time</label>
+            <input
+              type="number"
+              className="form-control"
+              value={readTime || ""}
+              onChange={(e) => setReadTime(e.target.value)}
+              required
+            />
+          </div>
         </div>
-        <div className="col-4">
-        <label>Date</label>
-        <input
-            type="date"
-            className="form-control"
-            value={date || ""}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-4">
-        <label>Read Time</label>
-        <input
-            type="number"
-            className="form-control"
-            value={readTime || ""}
-            onChange={(e) => setReadTime(e.target.value)}
-            required
-          />
-        </div>
-        </div>
-
 
         <div>
           <label>Description</label>
@@ -341,12 +384,9 @@ export default function AddBlogs() {
         </div>
         <div>
           <button type="submit" className="btn btn-primary rounded-pill">
-            {
-              isLoading?"Waiting...":isEditMode?"Update Blog":"Add Blog"
-            }
+            {isLoading ? "Waiting..." : isEditMode ? "Update Blog" : "Add Blog"}
           </button>
         </div>
-
       </form>
     </ComponentContainerCard>
   );

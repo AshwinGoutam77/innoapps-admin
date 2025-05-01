@@ -257,7 +257,7 @@ const Page = () => {
   }, [headings]);
 
   return (
-    <>
+    <> 
       {data ? (
         <div className="blog-detail-page">
           <div className="scroll-header">

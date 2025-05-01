@@ -26,3 +26,22 @@
     pointer-events: none;
     display: none;
 }
+
+/* making sticky toolbar */
+.quill {
+    position:  relative !important;
+}
+.ql-toolbar.ql-snow {
+    position: sticky !important;
+    top: 122px !important;
+    background: #fff !important;
+    z-index: 9 !important;
+}
+
+
+@media (max-width: 992px) {
+    .ql-toolbar.ql-snow {
+        top: 75px !important;
+    }
+    
+}

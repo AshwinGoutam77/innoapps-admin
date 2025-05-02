@@ -696,7 +696,15 @@ export const HORIZONTAL_MENU_ITEM = [{
   label: 'Estimate Project Leads',
   icon: 'hugeicons:estimate-01',
   url: '/estimate-project'
-}, {
+},
+{
+  key: 'subscription',
+  label: 'Subscription Leads',
+  icon: 'material-symbols:inventory',
+  className: "llll",
+  url: '/subscription-list'
+},
+{
   key: 'blogs',
   label: 'Blogs',
   icon: 'tabler:file-description',
@@ -1119,6 +1127,6 @@ export const HORIZONTAL_MENU_ITEM = [{
   label: 'Log Out',
   icon: 'material-symbols:logout',
   className: "llll",
-  url: '/'
+  url: '/',
 },
 ];

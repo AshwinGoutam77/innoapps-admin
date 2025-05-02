@@ -2,8 +2,14 @@ import { NextResponse } from 'next/server';
 
 /** @param {import('next/server').NextRequest} request */
 export function middleware(request) {
+  console.log('Middleware triggered for path:', request.nextUrl.pathname);
   const token = request.cookies.get('login-token')?.value;
   const { pathname } = request.nextUrl;
+
+
+  if (pathname === '/' && token) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
 
   const protectedPaths = [
     '/admin',
@@ -18,7 +24,7 @@ export function middleware(request) {
   );
 
   if (isProtected && !token) {
-    return NextResponse.redirect(new URL('/auth/login', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   return NextResponse.next();
@@ -26,10 +32,8 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    '/admin/:path*',
-    '/dashboard/:path*',
-    '/add-blogs/:path*',
-    '/blogs/:path*',
-    '/estimate-project/:path*',
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|auth/login).*)',
   ],
 };
+
+

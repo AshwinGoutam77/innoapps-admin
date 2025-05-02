@@ -70,7 +70,7 @@ export default function Page() {
                   <th>Image</th>
                   <th>Title</th>
                   <th>Category</th>
-                  <th>Active</th>
+                  <th>Publish</th>
                   <th>Action</th>
                   <th>View</th>
                 </tr>
@@ -164,14 +164,14 @@ export default function Page() {
                         </Link>
                       </td>
                       <td>
-                    <Link
-                      href={`/blogs/${record._id}`}
-                      target="_blank"
-                      className="text-reset fs-16 px-1"
-                    >
-                      <IconifyIcon icon="tabler:eye" />
-                    </Link>
-                  </td>
+                        <Link
+                          href={`https://innoapps-nextjs.vercel.app/blogs/${record.slug}`}
+                          target="_blank"
+                          className="text-reset fs-16 px-1"
+                        >
+                          <IconifyIcon icon="tabler:eye" />
+                        </Link>
+                      </td>
                     </tr>
                   );
                 })}

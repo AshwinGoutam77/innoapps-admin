@@ -56,7 +56,7 @@ const MenuItemLink = ({
 }) => {
   const handleLogout = () => {
     document.cookie = 'login-token=; Max-Age=0; path=/';
-    window.location.href = '/auth/login';
+    window.location.href = '/';
   };
 
   return <Link href={item.url ?? ''} target={item.target} className={clsx(className, {

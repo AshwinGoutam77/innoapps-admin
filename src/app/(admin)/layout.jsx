@@ -8,6 +8,9 @@ import { useLayoutContext } from '@/context/useLayoutContext';
 import { getHorizontalMenuItems } from '@/helpers/Manu';
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import './admin-css.css'
+import { usePathname } from 'next/navigation';
+
 const AdminLayout = ({
   children
 }) => {
@@ -15,11 +18,18 @@ const AdminLayout = ({
     orientation,
     changeTitle
   } = useLayoutContext();
+  const pathname = usePathname();
+
+  const hideSidebarRoutes = [
+    '/',
+  ];
+  const shouldHideSidebar = hideSidebarRoutes.includes(pathname);
   const menuItems = getHorizontalMenuItems();
+  
   return <>
     <div className="wrapper">
-      <TopBar />
-      <HorizontalNavBar menuItems={menuItems} />
+      {!shouldHideSidebar && <TopBar />}
+      {!shouldHideSidebar && <HorizontalNavBar menuItems={menuItems} />}
       <div className="modal fade" id="searchModal" tabIndex={-1} aria-labelledby="searchModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg">
           <div className="modal-content bg-transparent">

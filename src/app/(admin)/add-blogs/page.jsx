@@ -50,6 +50,7 @@ export default function AddBlogs() {
 
     fetchSlugs();
   }, []);
+
   const validateSlug = (value) => {
     return value
       .toLowerCase()
@@ -185,27 +186,28 @@ export default function AddBlogs() {
 
   const modules = {
     toolbar: [
+      [{ header: [1, 2, 3, 4, false] }],
       ["bold", "italic", "underline"],
-      [
-        {
-          header: [false, 1, 2, 3, 4, 5, 6],
-        },
-        "blockquote",
-      ],
-      [
-        {
-          list: "bullet",
-        },
-      ],
-      [
-        "direction",
-        {
-          align: [],
-        },
-      ],
+      ["blockquote"],
+      [{ list: "bullet" }],
+      ["direction", { align: [] }],
       ["link", "image"],
     ],
   };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "blockquote",
+    "list",
+    "bullet",
+    "direction",
+    "align",
+    "link",
+    "image",
+  ];
 
   return (
     <ComponentContainerCard title={isEditMode ? "Edit Blog" : "Add Blog"}>
@@ -269,7 +271,7 @@ export default function AddBlogs() {
           />
         </div>
         <div>
-          <label>Title</label>
+          <label>Blog Title</label>
           <input
             type="text"
             className="form-control"
@@ -283,7 +285,7 @@ export default function AddBlogs() {
           <input
             type="text"
             className="form-control"
-            value={shortDescription} 
+            value={shortDescription}
             onChange={(e) => {
               const input = e.target.value;
               if (input?.length <= 200) {
@@ -338,7 +340,7 @@ export default function AddBlogs() {
             />
           </div>
           <div className="col-4">
-            <label>Read Time</label>
+            <label>Read Time (in mins)</label>
             <input
               type="number"
               className="form-control"
@@ -353,6 +355,7 @@ export default function AddBlogs() {
           <label>Description</label>
           <ReactQuill
             modules={modules}
+            formats={formats}
             theme="snow"
             value={description}
             onChange={setDescription}
@@ -360,26 +363,30 @@ export default function AddBlogs() {
         </div>
         <div>
           <strong>Save as:</strong>
-          <div className="ms-1">
-            <input
-              type="radio"
-              name="blogstatus"
-              id="activeBlog"
-              value="true"
-              checked={isActive === true}
-              onChange={(e) => setisActive(e.target.value === "true")}
-            />
-            <label htmlFor="activeBlog">&nbsp;&nbsp; Active</label>
-            <br />
-            <input
-              type="radio"
-              name="blogstatus"
-              id="draft"
-              value="false"
-              checked={isActive === false}
-              onChange={(e) => setisActive(e.target.value === "true")}
-            />
-            <label htmlFor="draft">&nbsp;&nbsp; Draft</label>
+          <div className="d-flex align-items-center gap-2">
+            <div>
+              <input
+                type="radio"
+                name="blogstatus"
+                id="activeBlog"
+                value="true"
+                checked={isActive === true}
+                onChange={(e) => setisActive(e.target.value === "true")}
+              />
+              <label htmlFor="activeBlog">&nbsp;&nbsp; Publish</label>
+            </div>
+            {/* <br /> */}
+            <div>
+              <input
+                type="radio"
+                name="blogstatus"
+                id="draft"
+                value="false"
+                checked={isActive === false}
+                onChange={(e) => setisActive(e.target.value === "true")}
+              />
+              <label htmlFor="draft">&nbsp;&nbsp; Draft</label>
+            </div>
           </div>
         </div>
         <div>

@@ -69,6 +69,10 @@ html[data-layout="topnav"] {
 
         .nav-item {
 
+            .nav-link.active {
+                color: var(--ct-menu-item-hover-color);
+            }
+
             >a,
             .nav-link {
                 color: $menu-item-color;

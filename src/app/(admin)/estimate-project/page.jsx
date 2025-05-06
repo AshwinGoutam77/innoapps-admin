@@ -62,9 +62,9 @@ const Page = () => {
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(EstimateData);
-    const wb = XLSX.utils.book_new(); 
-    XLSX.utils.book_append_sheet(wb, ws, "estimate-project"); 
-    XLSX.writeFile(wb, "estimate-project.xlsx"); 
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "estimate-project");
+    XLSX.writeFile(wb, "estimate-project.xlsx");
   };
 
   return (
@@ -115,29 +115,32 @@ const Page = () => {
               </tr>
             </thead>
             <tbody>
-              {(EstimateData || []).map((item, idx) => {
-                return (
-                  <tr key={idx}>
-                    <td>{`${item.first_name} ${item.last_name}`}</td>
-                    <td>{item.email}</td>
-                    <td>{item.mobile}</td>
-                    <td>{item.project_type}</td>
-                    <td>{item.budget}</td>
-                    <td>{item.project_start_time}</td>
-                    <td className=''>
-                      <div className='d-flex gap-2'>
-                        <IconifyIcon icon="tabler:eye"
-                          className="cursor-pointer"
-                          onClick={() => handleView(item?._id)}
-                        />
-                        <IconifyIcon icon="tabler:trash"
-                          className="cursor-pointer"
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {loading ? (
+                <tr><td colSpan="4">Loading...</td></tr>
+              ) : (
+                EstimateData || []).map((item, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>{`${item.first_name} ${item.last_name}`}</td>
+                      <td>{item.email}</td>
+                      <td>{item.mobile}</td>
+                      <td>{item.project_type}</td>
+                      <td>{item.budget}</td>
+                      <td>{item.project_start_time}</td>
+                      <td className=''>
+                        <div className='d-flex gap-2'>
+                          <IconifyIcon icon="tabler:eye"
+                            className="cursor-pointer"
+                            onClick={() => handleView(item?._id)}
+                          />
+                          <IconifyIcon icon="tabler:trash"
+                            className="cursor-pointer"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
           <div className="d-flex justify-content-between align-items-center mt-3">

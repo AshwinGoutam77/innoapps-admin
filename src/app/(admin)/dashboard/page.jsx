@@ -62,8 +62,8 @@ const Page = () => {
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(ContactData);
-    const wb = XLSX.utils.book_new(); 
-    XLSX.utils.book_append_sheet(wb, ws, "Subscribers"); 
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Subscribers");
     XLSX.writeFile(wb, "contact-leads.xlsx");
   };
 
@@ -121,28 +121,31 @@ const Page = () => {
               </tr>
             </thead>
             <tbody>
-              {(ContactData || []).map((item, idx) => {
-                return (
-                  <tr key={idx}>
-                    <td>{`${item.first_name} ${item.last_name}`}</td>
-                    <td>{item.email}</td>
-                    <td>{item.mobile}</td>
-                    <td>{item.interested}</td>
-                    <td>{item.page ? new URL(item.page).pathname.replace("/", "/") : "--"}</td>
-                    <td className=''>
-                      <div className='d-flex gap-2'>
-                        <IconifyIcon icon="tabler:eye"
-                          className="cursor-pointer"
-                          onClick={() => handleView(item?._id)}
-                        />
-                        <IconifyIcon icon="tabler:trash"
-                          className="cursor-pointer"
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {loading ? (
+                <tr><td colSpan="4">Loading...</td></tr>
+              ) : (
+                ContactData || []).map((item, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>{`${item.first_name} ${item.last_name}`}</td>
+                      <td>{item.email}</td>
+                      <td>{item.mobile}</td>
+                      <td>{item.interested}</td>
+                      <td>{item.page ? new URL(item.page).pathname.replace("/", "/") : "--"}</td>
+                      <td className=''>
+                        <div className='d-flex gap-2'>
+                          <IconifyIcon icon="tabler:eye"
+                            className="cursor-pointer"
+                            onClick={() => handleView(item?._id)}
+                          />
+                          <IconifyIcon icon="tabler:trash"
+                            className="cursor-pointer"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
 

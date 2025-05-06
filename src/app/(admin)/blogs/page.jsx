@@ -7,6 +7,7 @@ import IconifyIcon from "@/components/wrappers/IconifyIcon";
 import Swal from "sweetalert2";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+
 export default function Page() {
   const [Blogs, setBlogs] = useState("");
   const fetchBlogs = async () => {

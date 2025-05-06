@@ -26,6 +26,18 @@ td.gridjs-td {
     height: 1rem;
 }
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer;
+}
+
+.modal ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.modal-header{
+    padding: 14px 20px;
 }

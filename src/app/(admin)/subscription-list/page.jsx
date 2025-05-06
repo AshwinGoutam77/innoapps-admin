@@ -1,102 +1,135 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Grid } from 'gridjs-react';
-import { Col, Row } from 'react-bootstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'react-bootstrap';
 import ComponentContainerCard from '@/components/ComponentContainerCard';
-import { h } from 'gridjs';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
-import Link from 'next/link';
+import useModal from '@/hooks/useModal';
+import * as XLSX from 'xlsx';
 
 const Page = () => {
-    const [dataTableRecords, setDataTableRecords] = useState([]);
+    const { openModalWithClass } = useModal();
     const [loading, setLoading] = useState(true);
+    const [subscribers, setSubscribers] = useState([]);
+    const [modalId, setModalId] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const recordsPerPage = 10;
 
-    const handleView = (row) => {
-        const rowData = row.cells.map(cell => cell.data);
-        console.log("Viewing:", rowData);
-    };
+    const totalPages = Math.ceil(subscribers?.length / recordsPerPage);
+    const paginatedData = subscribers?.slice(
+        (currentPage - 1) * recordsPerPage,
+        currentPage * recordsPerPage
+    );
 
-    const handleDelete = (row) => {
-        const rowData = row.cells.map(cell => cell.data);
-        console.log("Deleting:", rowData);
-    };
-
-    const columns = [
-        "Email",
-        "Subscribed",
-        {
-            name: "Actions",
-            formatter: (_, row) =>
-                h("div", { className: "d-flex gap-2 items-center" }, [
-                    h("span", {
-                        className: "cursor-pointer text-blue-600",
-                        innerHTML: `
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-download" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1D4ED8" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/>
-                <path d="M7 11l5 5l5 -5"/>
-                <path d="M12 4v12"/>
-              </svg>
-            `,
-                    }),
-                    h("span", {
-                        className: "cursor-pointer text-red-600",
-                        innerHTML: `
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#DC2626" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M4 7l16 0"/>
-                <path d="M10 11l0 6"/>
-                <path d="M14 11l0 6"/>
-                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
-                <path d="M9 7l0 -3h6l0 3"/>
-              </svg>
-            `,
-                    }),
-                ]),
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
         }
+    };
 
-    ];
-
+    const handleView = (row_id) => {
+        openModalWithClass('modal-dialog-centered');
+        setModalId(row_id);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/contacts");
+                const res = await fetch("/api/subscription");
                 const data = await res.json();
-
-                const formattedData = data.map(item => [
-                    item.email,
-                    "Subscribed"
-                ]);
-
-                setDataTableRecords(formattedData);
+                if (Array.isArray(data.subscribers)) {
+                    setSubscribers(data.subscribers);
+                } else if (Array.isArray(data)) {
+                    setSubscribers(data);
+                } else {
+                    console.error('Fetched data is not an array:', data);
+                    setSubscribers([]);
+                }
             } catch (err) {
                 console.error('Failed to fetch data:', err);
+                setSubscribers([]);
             } finally {
                 setLoading(false);
             }
         };
-
         fetchData();
     }, []);
 
+    const exportToExcel = () => {
+        const ws = XLSX.utils.json_to_sheet(subscribers);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Subscribers");
+        XLSX.writeFile(wb, "subscribers.xlsx");
+    };
+
     return (
-        <Row>
-            <Col lg={12}>
-                <ComponentContainerCard title="Subscription List">
-                    {loading ? (
-                        <p>Loading...</p>
-                    ) : (
-                        <Grid
-                            columns={columns}
-                            data={dataTableRecords}
-                            search={true}
-                            pagination={{ limit: 5 }}
-                        />
-                    )}
-                </ComponentContainerCard>
-            </Col>
-        </Row>
+        <>
+            <ComponentContainerCard title="Subscription Listing" exportData onClick={exportToExcel}>
+                <div className="table-responsive-sm">
+                    <table className="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Subscribed</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
+                                <tr><td colSpan="4">Loading...</td></tr>
+                            ) : (
+                                paginatedData?.map((item, idx) => (
+                                    <tr key={idx}>
+                                        <td>{item.email}</td>
+                                        <td>{item.subscribed ? "Yes" : "Not"}</td>
+                                        <td>{new Date(item?.createdAt).toLocaleDateString("en-GB", {
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}</td>
+                                        <td>
+                                            <div className='d-flex gap-2'>
+                                                <IconifyIcon icon="tabler:trash" className="cursor-pointer" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                    <div className="d-flex justify-content-between align-items-center mt-3">
+                        <span>
+                            Page {currentPage} of {totalPages}
+                        </span>
+                        <div className="btn-group">
+                            <button
+                                className="btn btn-sm btn-outline-primary"
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            >
+                                Prev
+                            </button>
+                            {[...Array(totalPages)].map((_, i) => (
+                                <button
+                                    key={i}
+                                    className={`btn btn-sm ${i + 1 === currentPage ? 'btn-primary' : 'btn-outline-primary'}`}
+                                    onClick={() => handlePageChange(i + 1)}
+                                >
+                                    {i + 1}
+                                </button>
+                            ))}
+                            <button
+                                className="btn btn-sm btn-outline-primary"
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </ComponentContainerCard>
+        </>
     );
 };
 

@@ -296,12 +296,12 @@ export default function AddBlogs() {
           />
           <small
             className={
-              shortDescription?.length < 80 ? "text-danger" : "text-muted"
+              shortDescription?.length < 200 ? "text-danger" : "text-muted"
             }
           >
-            {shortDescription?.length < 80
-              ? "Minimum 80 characters required."
-              : `${160 - shortDescription?.length} characters left`}
+            {shortDescription?.length < 200
+              ? "Minimum 200 characters required."
+              : `${200 - shortDescription?.length} characters left`}
           </small>
         </div>
         <div className="row">

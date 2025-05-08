@@ -38,6 +38,17 @@ td.gridjs-td {
     gap: 5px;
 }
 
-.modal-header{
+.modal-header {
     padding: 14px 20px;
+}
+
+.modal ul li a.attachment {
+    border: 1px solid #e4e7ec;
+    padding: 8px;
+    border-radius: 100px;
+    margin: 5px;
+}
+
+.w-auto {
+    width: auto !important;
 }

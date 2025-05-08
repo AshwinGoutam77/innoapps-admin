@@ -1,26 +1,27 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Grid } from 'gridjs-react';
-import { Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'react-bootstrap';
+import { Button, Col, Modal, ModalBody, ModalHeader, Row } from 'react-bootstrap';
 import ComponentContainerCard from '@/components/ComponentContainerCard';
-import { h } from 'gridjs';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
-import Link from 'next/link';
 import useModal from '@/hooks/useModal';
 import * as XLSX from 'xlsx';
 
 const Page = () => {
-  const {
-    isOpen,
-    className,
-    toggleModal,
-    openModalWithClass
-  } = useModal();
+  const { isOpen, className, toggleModal, openModalWithClass } = useModal();
+
+  const today = new Date();
+  const todayStr = today.toISOString().split("T")[0];
+  const lastMonth = new Date();
+  lastMonth.setMonth(lastMonth.getMonth() - 1);
+  const lastMonthStr = lastMonth.toISOString().split("T")[0];
+
   const [loading, setLoading] = useState(true);
-  const [EstimateData, setEstimateData] = useState("");
-  const [ModalId, setModalId] = useState("")
+  const [EstimateData, setEstimateData] = useState([]);
+  const [startDate, setStartDate] = useState(lastMonthStr);
+  const [endDate, setEndDate] = useState(todayStr);
+  const [ModalId, setModalId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const RecordsPerPage = 5;
+  const RecordsPerPage = 10;
 
   const totalPages = Math.ceil((EstimateData?.length || 0) / RecordsPerPage);
 
@@ -35,24 +36,31 @@ const Page = () => {
     }
   };
 
-  const handleView = (row_id) => {
-    openModalWithClass('modal-dialog-centered')
-    setModalId(row_id)
+  const handleView = (id) => {
+    openModalWithClass('modal-dialog-centered');
+    setModalId(id);
   };
 
-  // const handleDelete = (row) => {
-  //   const rowData = row.cells.map(cell => cell.data);
-  //   console.log("Deleting:", rowData);
-  // };
+  const handleFilter = async () => {
+    try {
+      const res = await fetch(`/api/estimate-project?startDate=${startDate}&endDate=${endDate}`);
+      const data = await res.json();
+      setEstimateData(data);
+      setCurrentPage(1);
+    } catch (err) {
+      console.error("Failed to fetch filtered estimates:", err);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/api/estimate-project");
+        const res = await fetch(`/api/estimate-project?startDate=${lastMonthStr}&endDate=${todayStr}`);
         const data = await res.json();
-        setEstimateData(data)
+        setEstimateData(data);
+        setCurrentPage(1);
       } catch (err) {
-        console.error('Failed to fetch data:', err);
+        console.error("Failed to fetch data:", err);
       } finally {
         setLoading(false);
       }
@@ -69,37 +77,83 @@ const Page = () => {
 
   return (
     <>
+      {/* MODAL */}
       <Modal show={isOpen} onHide={toggleModal} dialogClassName="modal-dialog-centered">
-        {className != 'modal-right' && <ModalHeader onHide={toggleModal} closeButton>
-          <h4 className="modal-title">Addtional Details</h4>
-        </ModalHeader>}
+        {className !== 'modal-right' && (
+          <ModalHeader onHide={toggleModal} closeButton>
+            <h4 className="modal-title">Additional Details</h4>
+          </ModalHeader>
+        )}
         <ModalBody>
           <ul>
-            {EstimateData && EstimateData.map((item, index) => {
-              return (
-                item?._id == ModalId && (
-                  <React.Fragment key={index}>
-                    <li><span className="fw-bold">Name:</span> {`${item.first_name} ${item.last_name}`}</li>
-                    <li><span className="fw-bold">Email:</span> {item?.email}</li>
-                    <li><span className="fw-bold">Mobile:</span> {item?.mobile}</li>
-                    <li><span className="fw-bold">Description:</span> {item?.description}</li>
-                    <li><span className="fw-bold">Project Scope:</span> {item?.project_scope}</li>
-                    <li><span className="fw-bold">Project Type:</span> {item?.project_type}</li>
-                    <li><span className="fw-bold">Budget:</span> {item?.budget}</li>
-                    <li><span className="fw-bold">Start Time:</span> {item?.project_start_time}</li>
-                    <li><span className="fw-bold">Date:</span> {new Date(item?.createdAt).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}</li>
-                  </React.Fragment>
-                )
-              );
-            })}
-
+            {EstimateData.map((item, index) =>
+              item._id === ModalId ? (
+                <React.Fragment key={index}>
+                  <li><strong>Name:</strong> {`${item.first_name} ${item.last_name}`}</li>
+                  <li><strong>Email:</strong> {item.email}</li>
+                  <li><strong>Mobile:</strong> {item.mobile}</li>
+                  <li><strong>Description:</strong> {item.description}</li>
+                  <li><strong>Project Scope:</strong> {item.project_scope}</li>
+                  <li><strong>Project Type:</strong> {item.project_type}</li>
+                  <li><strong>Budget:</strong> {item.budget}</li>
+                  <li><strong>Start Time:</strong> {item.project_start_time}</li>
+                  <li><strong>Attachments:</strong>{" "}
+                    {item?.attachments?.map((attachment, index) => (
+                      <a
+                        key={index}
+                        className="attachment"
+                        href={`/api/attachment?filename=${encodeURIComponent(attachment?.filename)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {attachment?.filename}
+                      </a>
+                    ))}
+                  </li>
+                  <li><strong>Date:</strong> {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                    day: "2-digit", month: "short", year: "numeric"
+                  })}</li>
+                </React.Fragment>
+              ) : null
+            )}
           </ul>
         </ModalBody>
       </Modal>
+
+      {/* DATE FILTER */}
+      <ComponentContainerCard title="Filter Estimates by Date">
+        <Row className="g-3 align-items-end">
+          <Col md={3}>
+            <label htmlFor="start-date">Start Date</label>
+            <input
+              type="date"
+              id="start-date"
+              className="form-control"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              max={todayStr}
+            />
+          </Col>
+          <Col md={3}>
+            <label htmlFor="end-date">End Date</label>
+            <input
+              type="date"
+              id="end-date"
+              className="form-control"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              max={todayStr}
+            />
+          </Col>
+          <Col md={3}>
+            <button className="btn btn-primary rounded-pill" onClick={handleFilter}>
+              Filter Data
+            </button>
+          </Col>
+        </Row>
+      </ComponentContainerCard>
+
+      {/* TABLE */}
       <ComponentContainerCard title="Estimate Project Listing" exportData onClick={exportToExcel}>
         <div className="table-responsive-sm">
           <table className="table table-striped mb-0">
@@ -111,42 +165,37 @@ const Page = () => {
                 <th>Project Type</th>
                 <th>Budget</th>
                 <th>Start Time</th>
-                <th>Action</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan="4">Loading...</td></tr>
+                <tr><td colSpan="7">Loading...</td></tr>
               ) : (
-                EstimateData || []).map((item, idx) => {
-                  return (
-                    <tr key={idx}>
-                      <td>{`${item.first_name} ${item.last_name}`}</td>
-                      <td>{item.email}</td>
-                      <td>{item.mobile}</td>
-                      <td>{item.project_type}</td>
-                      <td>{item.budget}</td>
-                      <td>{item.project_start_time}</td>
-                      <td className=''>
-                        <div className='d-flex gap-2'>
-                          <IconifyIcon icon="tabler:eye"
-                            className="cursor-pointer"
-                            onClick={() => handleView(item?._id)}
-                          />
-                          <IconifyIcon icon="tabler:trash"
-                            className="cursor-pointer"
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                paginatedData.map((item, idx) => (
+                  <tr key={idx}>
+                    <td>{`${item.first_name} ${item.last_name}`}</td>
+                    <td>{item.email}</td>
+                    <td>{item.mobile}</td>
+                    <td>{item.project_type}</td>
+                    <td>{item.budget}</td>
+                    <td>{item.project_start_time}</td>
+                    <td>
+                      <div className="d-flex gap-2">
+                        <IconifyIcon icon="tabler:eye" className="cursor-pointer" onClick={() => handleView(item._id)} />
+                        <IconifyIcon icon="tabler:trash" className="cursor-pointer" />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
+
+          {/* PAGINATION */}
+          {/* {totalPages > 1 && ( */}
           <div className="d-flex justify-content-between align-items-center mt-3">
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
+            <span>Page {currentPage} of {totalPages}</span>
             <div className="btn-group">
               <button
                 className="btn btn-sm btn-outline-primary"
@@ -158,8 +207,7 @@ const Page = () => {
               {[...Array(totalPages)].map((_, i) => (
                 <button
                   key={i}
-                  className={`btn btn-sm ${i + 1 === currentPage ? 'btn-primary' : 'btn-outline-primary'
-                    }`}
+                  className={`btn btn-sm ${i + 1 === currentPage ? 'btn-primary' : 'btn-outline-primary'}`}
                   onClick={() => handlePageChange(i + 1)}
                 >
                   {i + 1}
@@ -174,8 +222,8 @@ const Page = () => {
               </button>
             </div>
           </div>
+          {/* )} */}
         </div>
-
       </ComponentContainerCard>
     </>
   );

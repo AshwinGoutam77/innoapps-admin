@@ -4,12 +4,38 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
   try {
+    const { searchParams } = new URL(req.url);
+    const startDateParam = searchParams.get("startDate");
+    const endDateParam = searchParams.get("endDate");
+
     const client = await clientPromise;
     const db = client.db("Innoapps");
 
+    const filter = {};
+    const now = new Date();
+
+    if (startDateParam && endDateParam) {
+      const start = new Date(startDateParam);
+      const end = new Date(endDateParam);
+      end.setHours(23, 59, 59, 999); // Include full end day
+
+      filter.createdAt = {
+        $gte: start,
+        $lte: end,
+      };
+    } else {
+      const lastMonth = new Date();
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+      filter.createdAt = {
+        $gte: lastMonth,
+        $lte: now,
+      };
+    }
+
     const blogs = await db
       .collection("blogs")
-      .find({})
+      .find(filter)
       .sort({ createdAt: -1 })
       .toArray();
 
@@ -22,6 +48,7 @@ export async function GET(req) {
     );
   }
 }
+
 export async function POST(req) {
   try {
     const body = await req.json();

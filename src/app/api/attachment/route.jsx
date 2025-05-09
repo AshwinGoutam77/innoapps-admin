@@ -1,47 +1,24 @@
-import { NextResponse } from 'next/server';
+// /pages/api/attachment.js (or .ts)
 import fs from 'fs';
 import path from 'path';
 
-export async function GET(req) {
-    const { searchParams } = new URL(req.url);
-    const filename = searchParams.get("filename");
+export default async function handler(req, res) {
+    const { filename } = req.query;
 
     if (!filename) {
-        return NextResponse.json({ error: "Missing filename" }, { status: 400 });
+        return res.status(400).json({ error: 'Filename is required' });
     }
 
-    const filePath = process.platform === "win32"
-        ? path.join("D:\\tmp", filename)
-        : path.join("/tmp", filename);
+    const filePath = path.resolve(process.cwd(), 'public/uploads', filename);
 
-    try {
-        const fileBuffer = await fs.promises.readFile(filePath);
-        const ext = path.extname(filename).toLowerCase();
-
-        return new NextResponse(fileBuffer, {
-            status: 200,
-            headers: {
-                "Content-Type": getMimeType(ext),
-                "Content-Disposition": `inline; filename="${filename}"`,
-            },
-        });
-    } catch (err) {
-        return NextResponse.json({ error: "File not found" }, { status: 404 });
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ error: 'File not found' });
     }
-}
 
-function getMimeType(ext) {
-    switch (ext) {
-        case ".pdf":
-            return "application/pdf";
-        case ".jpg":
-        case ".jpeg":
-            return "image/jpeg";
-        case ".png":
-            return "image/png";
-        case ".docx":
-            return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-        default:
-            return "application/octet-stream";
-    }
+    const fileStream = fs.createReadStream(filePath);
+
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+    return fileStream.pipe(res);
 }

@@ -51,9 +51,9 @@ export default function Page() {
         body: JSON.stringify({ isActive: value }),
       });
 
-      if (res.ok) {
-        fetchBlogs(startDate, endDate);
-      }
+      // if (res.ok) {
+      //   fetchBlogs(startDate, endDate);
+      // }
     } catch (error) {
       console.error("Failed to update status:", error);
     }

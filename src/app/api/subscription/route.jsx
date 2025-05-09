@@ -18,7 +18,6 @@ export async function GET(req) {
             const start = new Date(startDateParam);
             const end = new Date(endDateParam);
 
-            // ✅ Fix: Set end time to end of day
             end.setHours(23, 59, 59, 999);
 
             filter.createdAt = {

@@ -48,7 +48,7 @@ const Page = () => {
             const res = await fetch(`/api/subscription?startDate=${startDate}&endDate=${endDate}`);
             const data = await res.json();
             console.log(data);
-            setSubscribers(data?.subscribers);
+            setSubscribers(data);
             setCurrentPage(1); // Reset to first page
         } catch (err) {
             console.error("Failed to fetch filtered subscribers:", err);

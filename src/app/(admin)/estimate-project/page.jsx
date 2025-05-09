@@ -5,6 +5,7 @@ import ComponentContainerCard from '@/components/ComponentContainerCard';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import useModal from '@/hooks/useModal';
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 
 const Page = () => {
   const { isOpen, className, toggleModal, openModalWithClass } = useModal();
@@ -52,19 +53,20 @@ const Page = () => {
     }
   };
 
+  const fetchData = async () => {
+    try {
+      const res = await fetch(`/api/estimate-project?startDate=${lastMonthStr}&endDate=${todayStr}`);
+      const data = await res.json();
+      setEstimateData(data);
+      setCurrentPage(1);
+    } catch (err) {
+      console.error("Failed to fetch data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`/api/estimate-project?startDate=${lastMonthStr}&endDate=${todayStr}`);
-        const data = await res.json();
-        setEstimateData(data);
-        setCurrentPage(1);
-      } catch (err) {
-        console.error("Failed to fetch data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchData();
   }, []);
 
@@ -73,6 +75,28 @@ const Page = () => {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "estimate-project");
     XLSX.writeFile(wb, "estimate-project.xlsx");
+  };
+
+  const handleDelete = async (id) => {
+    if (!id) return;
+
+    try {
+      const res = await fetch(`/api/estimate-project?id=${id}`, {
+        method: "DELETE",
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        fetchData();
+        Swal.fire("Deleted!", "Data has been deleted.", "success");
+      } else {
+        alert("Error deleting data: " + result.message);
+      }
+    } catch (error) {
+      console.error("Failed to delete data:", error);
+      alert("Something went wrong!");
+    }
   };
 
   return (
@@ -184,7 +208,23 @@ const Page = () => {
                     <td>
                       <div className="d-flex gap-2">
                         <IconifyIcon icon="tabler:eye" className="cursor-pointer" onClick={() => handleView(item._id)} />
-                        <IconifyIcon icon="tabler:trash" className="cursor-pointer" />
+                        <IconifyIcon icon="tabler:trash"
+                          className="cursor-pointer"
+                          onClick={() => {
+                            Swal.fire({
+                              title: "Are you sure?",
+                              text: "You won't be able to revert this!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes, delete it!",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                handleDelete(item?._id);
+                              }
+                            });
+                          }} />
                       </div>
                     </td>
                   </tr>

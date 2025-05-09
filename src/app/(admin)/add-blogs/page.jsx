@@ -236,6 +236,16 @@ export default function AddBlogs() {
           />
         </div>
         <div>
+          <label>Blog Title</label>
+          <input
+            type="text"
+            className="form-control"
+            value={title || ""}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div>
           <label>Slug</label>
           <input
             type="text"
@@ -253,13 +263,12 @@ export default function AddBlogs() {
             {customSlug.trim() === "" ? (
               <p className="text-danger">Slug cannot be empty</p>
             ) : isSlugUnique(customSlug) ? (
-              <p className="text-success">Slug is available</p>
+              <p className="text-success mb-0">Slug is available</p>
             ) : (
               <p className="text-danger">Slug already exists</p>
             )}
           </small>
         </div>
-        <div className="border-0 border-bottom border-dashed"></div>
         <div>
           <label>Image URL</label>
           <input
@@ -270,16 +279,7 @@ export default function AddBlogs() {
             required
           />
         </div>
-        <div>
-          <label>Blog Title</label>
-          <input
-            type="text"
-            className="form-control"
-            value={title || ""}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
+
         <div>
           <label>Short Description</label>
           <input

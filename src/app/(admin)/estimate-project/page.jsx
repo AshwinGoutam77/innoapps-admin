@@ -127,18 +127,20 @@ const Page = () => {
                     day: "2-digit", month: "short", year: "numeric"
                   })}</li>
                   <li><strong>Attachments:</strong>{" "}
-                    {item?.attachments?.map((attachment, index) => (
-                      <a
-                        key={index}
-                        className="attachment"
-                        href={`/api/attachment?filename=${encodeURIComponent(attachment?.filename)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <IconifyIcon icon="tabler:download" />
-                        {attachment?.filename}
-                      </a>
-                    ))}
+                    <span className='d-flex align-items-center flex-wrap gap-1'>
+                      {item?.attachments?.map((attachment, index) => (
+                        <a
+                          key={index}
+                          className="attachment"
+                          href={`/api/attachment?filename=${encodeURIComponent(attachment?.filename)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconifyIcon icon="tabler:download" />
+                          {attachment?.filename}
+                        </a>
+                      ))}
+                    </span>
                   </li>
                 </React.Fragment>
               ) : null

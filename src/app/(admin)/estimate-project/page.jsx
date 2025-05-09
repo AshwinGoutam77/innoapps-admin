@@ -197,7 +197,7 @@ const Page = () => {
               {loading ? (
                 <tr><td colSpan="7">Loading...</td></tr>
               ) : (
-                paginatedData.map((item, idx) => (
+                paginatedData?.length !== 0 ? paginatedData.map((item, idx) => (
                   <tr key={idx}>
                     <td>{`${item.first_name} ${item.last_name}`}</td>
                     <td>{item.email}</td>
@@ -229,7 +229,7 @@ const Page = () => {
                       </div>
                     </td>
                   </tr>
-                ))
+                )) : <tr><td colSpan="6">No Data Found</td></tr>
               )}
             </tbody>
           </table>

@@ -43,11 +43,13 @@ const Page = () => {
   };
 
   const handleFilter = async () => {
+    setLoading(true);
     try {
       const res = await fetch(`/api/contacts?startDate=${startDate}&endDate=${endDate}`);
       const data = await res.json();
       setContactData(data);
-      setCurrentPage(1); // Reset to first page
+      setCurrentPage(1);
+      setLoading(false);
     } catch (err) {
       console.error("Failed to fetch filtered contacts:", err);
     }
@@ -173,7 +175,7 @@ const Page = () => {
                 className="form-control"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                min={startDate || ""} 
+                min={startDate || ""}
                 max={todayStr}
               />
             </div>
@@ -204,7 +206,7 @@ const Page = () => {
               {loading ? (
                 <tr><td colSpan="6">Loading...</td></tr>
               ) : (
-                paginatedData.map((item, idx) => (
+                paginatedData?.length !== 0 ? paginatedData.map((item, idx) => (
                   <tr key={idx}>
                     <td>{`${item.first_name} ${item.last_name}`}</td>
                     <td>{item.email}</td>
@@ -236,7 +238,7 @@ const Page = () => {
                       </div>
                     </td>
                   </tr>
-                ))
+                )) : <tr><td colSpan="6">No Data Found</td></tr>
               )}
             </tbody>
           </table>

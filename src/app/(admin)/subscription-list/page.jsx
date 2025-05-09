@@ -160,7 +160,7 @@ const Page = () => {
                             {loading ? (
                                 <tr><td colSpan="4">Loading...</td></tr>
                             ) : (
-                                paginatedData.map((item, idx) => (
+                                paginatedData?.length !== 0 ? paginatedData.map((item, idx) => (
                                     <tr key={idx}>
                                         <td>{item.email}</td>
                                         <td>{item.subscribed ? "Yes" : "No"}</td>
@@ -189,7 +189,7 @@ const Page = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                ))
+                                )) : <tr><td colSpan="6">No Data Found</td></tr>
                             )}
                         </tbody>
                     </table>

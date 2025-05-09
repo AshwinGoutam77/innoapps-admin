@@ -137,7 +137,7 @@ export default function Page() {
               {loading ? (
                 <tr><td colSpan="6">Loading...</td></tr>
               ) : (
-                paginatedBlogs.map((record, idx) => (
+                paginatedBlogs?.length !== 0 ? paginatedBlogs.map((record, idx) => (
                   <tr key={idx}>
                     <td>
                       <img
@@ -230,7 +230,7 @@ export default function Page() {
                       </div>
                     </td>
                   </tr>
-                ))
+                )) : <tr><td colSpan="6">No Data Found</td></tr>
               )}
             </tbody>
           </table>

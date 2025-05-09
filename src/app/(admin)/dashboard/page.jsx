@@ -120,9 +120,10 @@ const Page = () => {
                     <li><strong>Country:</strong> {item.location?.country || "--"}</li>
                     <li><strong>Region:</strong> {item.location?.region || "--"}</li>
                     <li><strong>City:</strong> {item.location?.city || "--"}</li>
-                    {item?.attachment?.length !== 0 && (
+                    {/* {item?.attachment?.length !== 0 && (
                       <li><strong>Attachments:</strong>{" "}
-                        {item?.attachment?.map((attachment, index) => (
+                        {item && item?.attachment?.map((attachment, index) => (
+                          console.log(attachment),
                           <a
                             key={index}
                             className='attachment'
@@ -134,7 +135,7 @@ const Page = () => {
                           </a>
                         ))}
                       </li>
-                    )}
+                    )} */}
                     <li><strong>Page:</strong> {item.page}</li>
                     <li><strong>Date:</strong> {new Date(item?.createdAt).toLocaleDateString("en-GB", {
                       day: "2-digit", month: "short", year: "numeric"
@@ -172,6 +173,7 @@ const Page = () => {
                 className="form-control"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
+                min={startDate || ""} 
                 max={todayStr}
               />
             </div>

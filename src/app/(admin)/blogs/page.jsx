@@ -107,6 +107,7 @@ export default function Page() {
               className="form-control"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
+              min={startDate || ""}
               max={todayStr}
             />
           </div>

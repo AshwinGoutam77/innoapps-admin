@@ -43,11 +43,13 @@ const Page = () => {
   };
 
   const handleFilter = async () => {
+    setLoading(true);
     try {
       const res = await fetch(`/api/estimate-project?startDate=${startDate}&endDate=${endDate}`);
       const data = await res.json();
       setEstimateData(data);
       setCurrentPage(1);
+      setLoading(false);
     } catch (err) {
       console.error("Failed to fetch filtered estimates:", err);
     }

@@ -48,7 +48,6 @@ const Page = () => {
             const res = await fetch(`/api/subscription?startDate=${startDate}&endDate=${endDate}`);
             const data = await res.json();
             console.log(data);
-
             setSubscribers(data?.subscribers);
             setCurrentPage(1); // Reset to first page
         } catch (err) {

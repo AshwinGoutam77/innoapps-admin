@@ -88,7 +88,7 @@ export default function Page() {
   return (
     <>
       {/* Filter by date */}
-      <ComponentContainerCard title="Filter Blogs by Date">
+      <ComponentContainerCard title="Filter Blogs">
         <div className="row g-3 align-items-end">
           <div className="col-md-3">
             <label>Start Date</label>
@@ -119,7 +119,7 @@ export default function Page() {
       </ComponentContainerCard>
 
       {/* Blog Table */}
-      <ComponentContainerCard title="Blog Listing">
+      <ComponentContainerCard title="Blog Listing" btn>
         <div className="table-responsive-sm">
           <table className="table table-striped mb-0">
             <thead>
@@ -147,7 +147,7 @@ export default function Page() {
                     </td>
                     <td>{record.title}</td>
                     <td>{record.category}</td>
-                    <td>{new Date(record.createdAt).toLocaleDateString("en-GB", {
+                    <td>{new Date(record.date).toLocaleDateString("en-GB", {
                       day: "2-digit", month: "short", year: "numeric"
                     })}</td>
                     <td>

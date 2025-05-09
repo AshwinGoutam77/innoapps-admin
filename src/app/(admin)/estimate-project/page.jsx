@@ -97,6 +97,9 @@ const Page = () => {
                   <li><strong>Project Type:</strong> {item.project_type}</li>
                   <li><strong>Budget:</strong> {item.budget}</li>
                   <li><strong>Start Time:</strong> {item.project_start_time}</li>
+                  <li><strong>Date:</strong> {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                    day: "2-digit", month: "short", year: "numeric"
+                  })}</li>
                   <li><strong>Attachments:</strong>{" "}
                     {item?.attachments?.map((attachment, index) => (
                       <a
@@ -106,13 +109,11 @@ const Page = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
+                        <IconifyIcon icon="tabler:download" />
                         {attachment?.filename}
                       </a>
                     ))}
                   </li>
-                  <li><strong>Date:</strong> {new Date(item.createdAt).toLocaleDateString("en-GB", {
-                    day: "2-digit", month: "short", year: "numeric"
-                  })}</li>
                 </React.Fragment>
               ) : null
             )}
@@ -121,7 +122,7 @@ const Page = () => {
       </Modal>
 
       {/* DATE FILTER */}
-      <ComponentContainerCard title="Filter Estimates by Date">
+      <ComponentContainerCard title="Filter Listing">
         <Row className="g-3 align-items-end">
           <Col md={3}>
             <label htmlFor="start-date">Start Date</label>
@@ -163,8 +164,7 @@ const Page = () => {
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Project Type</th>
-                <th>Budget</th>
-                <th>Start Time</th>
+                <th>Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -178,8 +178,9 @@ const Page = () => {
                     <td>{item.email}</td>
                     <td>{item.mobile}</td>
                     <td>{item.project_type}</td>
-                    <td>{item.budget}</td>
-                    <td>{item.project_start_time}</td>
+                    <td>{new Date(item?.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit", month: "short", year: "numeric"
+                    })}</td>
                     <td>
                       <div className="d-flex gap-2">
                         <IconifyIcon icon="tabler:eye" className="cursor-pointer" onClick={() => handleView(item._id)} />

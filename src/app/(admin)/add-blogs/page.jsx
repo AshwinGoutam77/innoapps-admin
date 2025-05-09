@@ -177,7 +177,7 @@ export default function AddBlogs() {
     const result = await res.json();
     if (res.ok) {
       setIsLoading(false);
-      router.push("/blogs");
+      isEditMode ? window.close() : router.push("/blogs");
     } else {
       alert(result.message || "Something went wrong!");
       setIsLoading(false);
@@ -210,7 +210,7 @@ export default function AddBlogs() {
   ];
 
   return (
-    <ComponentContainerCard title={isEditMode ? "Edit Blog" : "Add Blog"}>
+    <ComponentContainerCard title={isEditMode ? "Edit Blog" : "Add Blog"} backBtn>
       <form
         onSubmit={handleSubmit}
         className="space-y-6 d-flex flex-column gap-2"

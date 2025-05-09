@@ -52,3 +52,11 @@ td.gridjs-td {
 .w-auto {
     width: auto !important;
 }
+
+.attachment{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: fit-content;
+    margin: 5px 0 0 0 !important;
+}

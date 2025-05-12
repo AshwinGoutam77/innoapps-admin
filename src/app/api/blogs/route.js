@@ -37,6 +37,7 @@ export async function POST(req) {
       date,
       readTime,
       shortDescription,
+      categorySlug,
     } = body;
 
     if (!title || !category || !description || !imageUrl) {
@@ -60,6 +61,7 @@ export async function POST(req) {
       date,
       readTime,
       shortDescription,
+      categorySlug,
       createdAt: new Date(),
     });
 
@@ -91,6 +93,7 @@ export async function PUT(req) {
     date,
     readTime,
     shortDescription,
+    categorySlug,
   } = body;
 
   if (!id) {
@@ -118,6 +121,7 @@ export async function PUT(req) {
           date,
           readTime,
           shortDescription,
+          categorySlug,
           updatedAt: new Date(),
         },
       }

@@ -32,7 +32,17 @@ export default function AddBlogs() {
   const [date, setDate] = useState("");
   const [readTime, setReadTime] = useState("");
   const [shortDescription, setShortDescription] = useState("");
+  const [categorySlug,setCategorySlug] =useState("")
 
+const generateSlug = (text) => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[\/\\]/g, '-')       
+    .replace(/[^a-z0-9\s-]/g, '')    
+    .replace(/\s+/g, '-')            
+    .replace(/-+/g, '-');            
+};
   useEffect(() => {
     const fetchSlugs = async () => {
       try {
@@ -89,6 +99,7 @@ export default function AddBlogs() {
       setDate(data.date);
       setReadTime(data.readTime);
       setShortDescription(data.shortDescription);
+      setCategorySlug(data.categorySlug)
     };
     if (isEditMode) fetchBlog();
     else setLoading(false);
@@ -125,6 +136,8 @@ export default function AddBlogs() {
 
   const handleChange = (selectedOption) => {
     setSelectedCategory(selectedOption ? selectedOption.value : null);
+     const categoryslug = generateSlug(selectedOption.value);
+     setCategorySlug(categoryslug)
   };
 
   const [isActive, setisActive] = useState(false);
@@ -165,6 +178,7 @@ export default function AddBlogs() {
       date,
       readTime,
       shortDescription,
+      categorySlug
     };
 
     const res = await fetch("/api/blogs", {
